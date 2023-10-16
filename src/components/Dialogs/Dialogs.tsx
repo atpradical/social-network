@@ -1,41 +1,42 @@
-import React, {FC} from 'react';
+import React from 'react';
 import s from './Dialogs.module.css'
-import {NavLink} from "react-router-dom";
+import {DialogItem} from "./DialogItem/DialogItem";
+import {Message} from "./Message/Message";
 
 type MessageType = {
     message: string
 }
-type DialogItemType = {
-    name: string, id: string
-}
 
-const DialogItem: FC<DialogItemType> = (props) => {
-    let path = '/dialogs/' + props.id
-    return <div className={s.dialog + ' ' + s.active}>
-        <NavLink to={path}>{props.name}</NavLink>
-    </div>
-}
+const Dialogs = (props: any) => {
 
-const Message: FC<MessageType> = (props) => {
-    return <div className={s.message}>{props.message}</div>
-}
+    const dialogsData = [
+        {id: "1", name: 'Ivan'},
+        {id: "2", name: 'Dimych'},
+        {id: "3", name: 'Andrey'},
+        {id: "4", name: 'Sveta'},
+        {id: "5", name: 'Sasha'},
+        {id: "6", name: 'Viktor'},
+        {id: "7", name: 'Valera'},
+    ]
 
-const Dialogs = (props:any) => {
+    const messagesData = [
+        {id: "1", message: 'Hi'},
+        {id: "2", message: 'How is your it-Kamasutra'},
+        {id: "3", message: 'yo'},
+        {id: "4", message: 'yo'},
+        {id: "5", message: 'yo'},
+    ]
+
+    let dialogElements = dialogsData.map(el => <DialogItem key={el.id} name={el.name} id={el.id}/>)
+    let messagesElements = messagesData.map(el=> <Message key={el.id} message={el.message}/>)
+
     return (
         <div className={s.dialogs}>
             <div className={s.dialogsItem}>
-                <DialogItem name={'Ivan'} id={'1'}/>
-                <DialogItem name={'Dimych'} id={'2'}/>
-                <DialogItem name={'Andrey'} id={'3'}/>
-                <DialogItem name={'Sveta'} id={'4'}/>
-                <DialogItem name={'Sasha'} id={'5'}/>
-                <DialogItem name={'Viktor'} id={'6'}/>
-                <DialogItem name={'Valera'} id={'7'}/>
+                {dialogElements}
             </div>
             <div className={s.messages}>
-                <Message message={'Hi'}/>
-                <Message message={'How is your it-Kamasutra'}/>
-                <Message message={'yo'}/>
+                {messagesElements}
             </div>
         </div>
     );
