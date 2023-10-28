@@ -2,33 +2,16 @@ import React from 'react';
 import s from './Dialogs.module.css'
 import {DialogItem} from "./DialogItem/DialogItem";
 import {Message} from "./Message/Message";
+import {DiaologsPageType} from "../../redux/state";
 
-type MessageType = {
-    message: string
+type PropsType = {
+    state: DiaologsPageType
 }
 
-const Dialogs = (props: any) => {
+const Dialogs: React.FC<PropsType> = ({state}) => {
 
-    const dialogsData = [
-        {id: "1", name: 'Ivan'},
-        {id: "2", name: 'Dimych'},
-        {id: "3", name: 'Andrey'},
-        {id: "4", name: 'Sveta'},
-        {id: "5", name: 'Sasha'},
-        {id: "6", name: 'Viktor'},
-        {id: "7", name: 'Valera'},
-    ]
-
-    const messagesData = [
-        {id: "1", message: 'Hi'},
-        {id: "2", message: 'How is your it-Kamasutra'},
-        {id: "3", message: 'yo'},
-        {id: "4", message: 'yo'},
-        {id: "5", message: 'yo'},
-    ]
-
-    let dialogElements = dialogsData.map(el => <DialogItem key={el.id} name={el.name} id={el.id}/>)
-    let messagesElements = messagesData.map(el=> <Message key={el.id} message={el.message}/>)
+    let dialogElements = state.dialogsData.map(el => <DialogItem key={el.id} name={el.name} id={el.id}/>)
+    let messagesElements = state.messagesData.map(el => <Message key={el.id} message={el.message}/>)
 
     return (
         <div className={s.dialogs}>
