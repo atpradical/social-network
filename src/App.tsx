@@ -11,9 +11,15 @@ import {StateType} from "./redux/state";
 
 type PropsType = {
     state: StateType
+    addPost: () => void
+    updateNewPostText: (newText: string) => void
 }
 
-export const App: React.FC<PropsType> = ({state}) => {
+export const App: React.FC<PropsType> = ({
+                                             state,
+                                             addPost,
+                                             updateNewPostText
+                                         }) => {
 
     return (
         <div className={'app-wrapper'}>
@@ -22,18 +28,11 @@ export const App: React.FC<PropsType> = ({state}) => {
             <div className={'app-wrapper-content'}>
                 <Route
                     path={'/dialogs'}
-                    render={() =>
-                        <Dialogs
-                            state={state.dialogsPage}
-                        />
-                    }/>
+                    render={() => <Dialogs state={state.dialogsPage}/>}/>
                 <Route
                     path={'/profile'}
-                    render={() =>
-                        <Profile
-                            state={state.profilePage}
-                        />
-                    }/>
+                    render={() => <Profile state={state.profilePage} addPost={addPost}
+                                           updateNewPostText={updateNewPostText}/>}/>
             </div>
             <Main/>
         </div>
