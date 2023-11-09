@@ -6,20 +6,14 @@ import Profile from "./components/Profile/Profile";
 import Navbar from "./components/Navbar/Navbar";
 import Header from "./components/Header/Header";
 import Main from "./components/Main";
-import {StateType} from "./redux/state";
+import {StoreType} from "./redux/state";
 
 
 type PropsType = {
-    state: StateType
-    addPost: () => void
-    updateNewPostText: (newText: string) => void
+    store: StoreType
 }
 
-export const App: React.FC<PropsType> = ({
-                                             state,
-                                             addPost,
-                                             updateNewPostText
-                                         }) => {
+export const App: React.FC<PropsType> = ({store}) => {
 
     return (
         <div className={'app-wrapper'}>
@@ -28,11 +22,14 @@ export const App: React.FC<PropsType> = ({
             <div className={'app-wrapper-content'}>
                 <Route
                     path={'/dialogs'}
-                    render={() => <Dialogs state={state.dialogsPage}/>}/>
+                    render={() => <Dialogs state={store._state.dialogsPage}/>}/>
                 <Route
                     path={'/profile'}
-                    render={() => <Profile state={state.profilePage} addPost={addPost}
-                                           updateNewPostText={updateNewPostText}/>}/>
+                    render={() => <Profile
+                        state={store._state}
+                        addPost={store.addPost.bind(store)}
+                        updateNewPostText={store.updateNewPostText.bind(store)}
+                    />}/>
             </div>
             <Main/>
         </div>
