@@ -5,15 +5,16 @@ import {StateType} from "../../redux/state";
 
 type PropsType = {
     state: StateType
-    addPost: () => void
-    updateNewPostText: (newText: string) => void
+    dispatch: (action: any)=>void
+    // addPost: () => void
+    // updateNewPostText: (newText: string) => void
 }
 
 
 const Profile: React.FC<PropsType> = ({
-                                          state,
-                                          addPost,
-                                          updateNewPostText
+                                          state, dispatch
+                                          // addPost,
+                                          // updateNewPostText
                                       }) => {
     return (
         <div>
@@ -21,8 +22,9 @@ const Profile: React.FC<PropsType> = ({
             <MyPosts
                 posts={state.profilePage.postsData}
                 newPostText={state.profilePage.newPostText}
-                addPost={addPost}
-                updateNewPostText={updateNewPostText}
+                dispatch={dispatch}
+                // addPost={addPost}
+                // updateNewPostText={updateNewPostText}
             />
         </div>
     );

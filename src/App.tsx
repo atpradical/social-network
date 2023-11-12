@@ -22,13 +22,12 @@ export const App: React.FC<PropsType> = ({store}) => {
             <div className={'app-wrapper-content'}>
                 <Route
                     path={'/dialogs'}
-                    render={() => <Dialogs state={store._state.dialogsPage}/>}/>
+                    render={() => <Dialogs store={store}/>}/>
                 <Route
                     path={'/profile'}
                     render={() => <Profile
                         state={store._state}
-                        addPost={store.addPost.bind(store)}
-                        updateNewPostText={store.updateNewPostText.bind(store)}
+                        dispatch={store.dispatch.bind(store)}
                     />}/>
             </div>
             <Main/>
