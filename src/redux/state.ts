@@ -2,11 +2,6 @@ import profileReducer from "./profile-reducer";
 import dialogsReducer from "./dialogs-reducer";
 import sidebarReducer from "./sidebar-reducer";
 
-const ADD_POST = 'ADD-POST';
-const UPDATE_NEW_POST_TEXT = 'UPDATE-NEW-POST-TEXT';
-const UPDATE_NEW_MESSAGE_BODY = 'UPDATE-NEW-MESSAGE-BODY'
-const SEND_MESSAGE = 'SEND-MESSAGE'
-
 export type MessagesDataType = {
     id: string,
     message: string
@@ -95,14 +90,6 @@ export const store: StoreType = {
         this._callSubscriber(this._state)
     }
 }
-
-export const addPostAC = () => ({type: ADD_POST})
-
-export const updateNewPostTextAC = (text: string) =>
-    ({type: UPDATE_NEW_POST_TEXT, newText: text})
-
-export const sendMessageAC = () => ({type: SEND_MESSAGE})
-export const updateNewMessageBodyAC = (text: string) => ({type: UPDATE_NEW_MESSAGE_BODY, body: text})
 
 
 // ============================= Имитация REDUX =================================================
