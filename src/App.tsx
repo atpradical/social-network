@@ -6,7 +6,7 @@ import Profile from "./components/Profile/Profile";
 import Navbar from "./components/Navbar/Navbar";
 import Header from "./components/Header/Header";
 import Main from "./components/Main";
-import {StoreType} from "./redux/state";
+import {StoreType} from "./redux/store";
 
 
 type PropsType = {
@@ -26,7 +26,7 @@ export const App: React.FC<PropsType> = ({store}) => {
                 <Route
                     path={'/profile'}
                     render={() => <Profile
-                        state={store._state}
+                        state={store.getState()}
                         dispatch={store.dispatch.bind(store)}
                     />}/>
             </div>

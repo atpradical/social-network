@@ -1,6 +1,8 @@
-import {StateType} from "./state";
+import {StateType} from "./store";
 
-export const sidebarReducer = (state: StateType, action: any) => {
+let initialState = {}
+
+export const sidebarReducer = (state: any = initialState, action: any) => {
     switch (action.type) {
         default:
             return state
