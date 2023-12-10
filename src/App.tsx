@@ -7,6 +7,7 @@ import Navbar from "./components/Navbar/Navbar";
 import Header from "./components/Header/Header";
 import Main from "./components/Main";
 import {StoreType} from "./redux/store";
+import DialogsContainer from "./components/Dialogs/DialogsContainer";
 
 
 type PropsType = {
@@ -22,13 +23,10 @@ export const App: React.FC<PropsType> = ({store}) => {
             <div className={'app-wrapper-content'}>
                 <Route
                     path={'/dialogs'}
-                    render={() => <Dialogs store={store}/>}/>
+                    render={() => <DialogsContainer store={store}/>}/>
                 <Route
                     path={'/profile'}
-                    render={() => <Profile
-                        state={store.getState()}
-                        dispatch={store.dispatch.bind(store)}
-                    />}/>
+                    render={() => <Profile store={store}/>}/>
             </div>
             <Main/>
         </div>
