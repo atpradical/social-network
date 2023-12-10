@@ -8,11 +8,11 @@ type PropsType = {
 }
 
 
-const Profile: React.FC<PropsType> = ({store}) => {
+const Profile: React.FC<PropsType> = () => {
     return (
         <div>
             <ProfileInfo/>
-            <MyPostsContainer store={store}/>
+            <MyPostsContainer/>
         </div>
     );
 };

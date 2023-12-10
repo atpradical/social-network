@@ -1,6 +1,5 @@
 import {combineReducers, createStore} from "redux";
 import profileReducer from "./profile-reducer";
-import dialogs from "../components/Dialogs/Dialogs";
 import dialogsReducer from "./dialogs-reducer";
 import sidebarReducer from "./sidebar-reducer";
 import {StoreType} from "./store";
@@ -11,6 +10,6 @@ let reducers = combineReducers({
     sidebar : sidebarReducer,
 })
 
-let store: StoreType = createStore(reducers, )
+let store: StoreType = createStore(reducers)
 
 export default store
