@@ -1,0 +1,18 @@
+.nav {
+    grid-area: n;
+    width: 100%;
+    background-color: #d4b9ff;
+    border: 1px solid #2d2d2b;
+}
+
+.item {
+    color: white;
+}
+
+.item :hover{
+    cursor: pointer;
+}
+
+.item.active {
+    color: #fa8448;
+}

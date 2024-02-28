@@ -1,0 +1,12 @@
+.content {
+    grid-area: c;
+    background-color: #a5ffb1;
+    border: 1px solid #2d2d2b;
+    display: flex;
+    flex-direction: column;
+}
+
+.content img {
+    width: fit-content;
+    height: 40%;
+}
