@@ -1,18 +1,18 @@
 .nav {
     grid-area: n;
-    width: 100%;
     background-color: #d4b9ff;
     border: 1px solid #2d2d2b;
+    width: 100%;
+    padding: 10px  20px;
 }
-
-.item {
+.item a {
     color: white;
+    text-decoration: none;
+}
+.item a.activeLink {
+    color: #ec4b01;
 }
 
 .item :hover{
     cursor: pointer;
-}
-
-.item.active {
-    color: #fa8448;
 }
