@@ -3,7 +3,6 @@
     background-color: #d4b9ff;
     border: 1px solid #2d2d2b;
     width: 100%;
-    padding: 10px  20px;
 }
 .item a {
     color: white;
@@ -15,4 +14,8 @@
 
 .item :hover{
     cursor: pointer;
+}
+
+.nav > .item {
+    margin: 10px 0 0 10px;
 }

@@ -1,41 +1,15 @@
 import React from 'react';
 import s from './Dialogs.module.css'
-import {NavLink} from "react-router-dom";
+import {DialogItem} from "./DialogItem/DialogItem";
+import {Message} from "./Message/Message";
+import {DialogsType, MessagesType} from "../../redux/state";
 
-const DialogItem: React.FC<DialogItemPropsType> = (props) => {
+export const Dialogs: React.FC<DialogsPropsType> = (props) => {
 
-    let path = `/dialogs/${props.id}`
-
-    return <div className={s.dialog + ' ' + s.active}>
-        <NavLink to={path}>{props.name}</NavLink>
-    </div>
-}
-
-const Message: React.FC<MessagePropsType> = (props) => {
-    return <div className={s.message}>{props.message}</div>
-}
-
-
-export const Dialogs = () => {
-
-    const dialogs: DialogsType[] = [
-        {id: 1, name: 'Ivan'},
-        {id: 2, name: 'Alexandra'},
-        {id: 3, name: 'Anatoly'},
-        {id: 4, name: 'Sveta'},
-        {id: 5, name: 'Viktor'},
-        {id: 6, name: 'Valera'}
-    ]
-
-    const messages: MessagesType[] = [
-        {id: 1, message: 'Hi'},
-        {id: 2, message: 'How is your IT kamasutra?'},
-        {id: 3, message: 'Yo!!'},
-        {id: 4, message: 'Yo!!!!'},
-    ]
-
-    const dialogsElements = dialogs.map(d => <DialogItem name={d.name} id={d.id}/>)
-    const messagesElements = messages.map(m => <Message message={m.message}/>)
+    const dialogsElements = props.state.dialogs.map(d =>
+        <DialogItem name={d.name} id={d.id}/>)
+    const messagesElements = props.state.messages.map(m =>
+        <Message message={m.message}/>)
 
     return (
         <div className={s.dialogs}>
@@ -51,19 +25,9 @@ export const Dialogs = () => {
 
 
 //types:
-type DialogItemPropsType = {
-    name: string
-    id: number
-}
-type MessagePropsType = {
-    message: string
-}
-
-type DialogsType = {
-    id: number
-    name: string
-}
-type MessagesType = {
-    id: number
-    message: string
+type DialogsPropsType = {
+    state: {
+        dialogs: DialogsType[]
+        messages: MessagesType[]
+    }
 }

@@ -1,27 +1,38 @@
 import React from 'react';
 import s from './MyPosts.module.css';
 import {Post} from "./Post/Post";
+import {PostsType} from "../../../redux/state";
 
-export const MyPosts = () => {
+export const MyPosts: React.FC<MyPostsPropsType> = (props) => {
 
-    const posts: PostsType[] = [
-        {id: 1, post: 'Hi how are you?', likesCount: 5},
-        {id: 2, post: 'this is my first comment', likesCount: 2},
-        {id: 3, post: 'IT-KAMASUTRA', likesCount: 0},
-        {id: 4, post: 'BEST social network', likesCount: 1},
-    ]
+    const postsElements = props.posts.map(p => <Post message={p.post} likesCount={p.likesCount}/>)
 
-    const postsElements = posts.map(p => <Post message={p.post} likesCount={p.likesCount}/>)
+    const newPostElement = React.createRef<HTMLTextAreaElement>()
+
+    const addPost = () => {
+        props.addPost()
+    }
+
+    const onPostChange = () => {
+        const text = newPostElement.current?.value
+        if (text) {
+            props.updateNewPostText(text)
+        }
+    }
 
     return (
         <div className={s.postsBlock}>
             <h3>My Posts</h3>
             <div>
                 <div>
-                    <textarea></textarea>
+                    <textarea
+                        cols={75} rows={10}
+                        ref={newPostElement}
+                        onChange={onPostChange}
+                        value={props.newPostText}></textarea>
                 </div>
                 <div>
-                    <button>Add Post</button>
+                    <button onClick={addPost}>Add Post</button>
                 </div>
             </div>
             <div className={s.posts}>
@@ -32,8 +43,9 @@ export const MyPosts = () => {
 };
 
 //types:
-type PostsType = {
-    id: number
-    post: string
-    likesCount: number
+type MyPostsPropsType = {
+    posts: PostsType[]
+    newPostText: string
+    addPost: () => void
+    updateNewPostText: (newText: string) => void
 }
