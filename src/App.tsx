@@ -5,7 +5,7 @@ import {NavBar} from "./components/NavBar/NavBar";
 import {Profile} from "./components/Profile/Profile";
 import {Dialogs} from "./components/Dialogs/Dialogs";
 import {Route} from "react-router-dom";
-import {StateType, updateNewPostText} from "./redux/state";
+import {ActionsType, StateType, StoreType} from "./redux/store";
 
 function App(props: AppPropsType) {
 
@@ -15,14 +15,17 @@ function App(props: AppPropsType) {
             <NavBar/>
             <div className={'app-wrapper-content'}>
                 <Route path={'/dialogs'}
-                       render={() => <Dialogs state={props.state.dialogsPage}/>}/>
+                       render={() =>
+                           <Dialogs
+                               // state={props.state.dialogsPage}
+                               store={props.store}
+                           />}/>
                 <Route path={'/profile'}
-                       render={() => <Profile
-
-                           profilePage={props.state.profilePage}
-                           addPost={props.addPost}
-                           updateNewPostText={props.updateNewPostText}
-                       />}/>
+                       render={() =>
+                           <Profile
+                               profilePage={props.state.profilePage}
+                               dispatch={props.dispatch}
+                           />}/>
             </div>
         </div>
     );
@@ -34,6 +37,6 @@ export default App;
 //types:
 type AppPropsType = {
     state: StateType
-    addPost: () => void
-    updateNewPostText: (newText: string) => void
+    dispatch: (action: ActionsType) => void
+    store: StoreType
 }
