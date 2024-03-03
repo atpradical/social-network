@@ -2,26 +2,25 @@ import React, {ChangeEvent} from 'react';
 import s from './Dialogs.module.css'
 import {DialogItem} from "./DialogItem/DialogItem";
 import {Message} from "./Message/Message";
-import {sendNewMessageAC, updateNewMessageBodyAC} from "../../redux/dialogs-reducer";
-import {StoreType} from "../../redux/store";
+import {DialogsPropsType} from "./DialogsContainer";
 
 export const Dialogs: React.FC<DialogsPropsType> = (props) => {
 
-    const state = props.store.getState().dialogsPage
+    const state = props.dialogsPage
 
     const dialogsElements = state.dialogs.map(d =>
-        <DialogItem name={d.name} id={d.id}/>)
+        <DialogItem key={d.id} name={d.name} id={d.id}/>)
     const messagesElements = state.messages.map(m =>
-        <Message message={m.message}/>)
+        <Message key={m.id} message={m.message}/>)
     const newMessageBody = state.newMessageBody
 
     const onSendMessageClick = () => {
-        props.store.dispatch(sendNewMessageAC())
+        props.sendMessage()
     }
 
     function onNewMessageChange(e: ChangeEvent<HTMLTextAreaElement>) {
         const body = e.currentTarget.value
-        props.store.dispatch(updateNewMessageBodyAC(body))
+        props.updateNewMessageBody(body)
     }
 
     return (
@@ -46,14 +45,3 @@ export const Dialogs: React.FC<DialogsPropsType> = (props) => {
         </div>
     );
 };
-
-
-//types:
-type DialogsPropsType = {
-    // state: {
-    //     dialogs: DialogsType[]
-    //     messages: MessagesType[]
-    //     newMessageBody: string
-    // }
-    store: StoreType
-}

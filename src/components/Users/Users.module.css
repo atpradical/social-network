@@ -1,0 +1,13 @@
+.userPhoto {
+    width: 70px;
+    height: 70px;
+    border: 1px solid dimgrey;
+    border-radius: 50%;
+}
+
+.item {
+    margin: 10px;
+    padding: 10px;
+    border: 1px solid dimgrey;
+    background-color: rgb(246, 250, 221);
+}

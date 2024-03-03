@@ -2,12 +2,7 @@ import {ProfileActionsType, profileReducer} from "./profile-reducer";
 import {DialogsActionsType, dialogsReducer} from "./dialogs-reducer";
 import {sidebarReducer} from "./sidebar-reducer";
 
-const ADD_POST = 'ADD-POST';
-const UPDATE_NEW_POST_TEXT = 'UPDATE-NEW-POST-TEXT';
-const UPDATE_NEW_MESSAGE_BODY = 'UPDATE-NEW-MESSAGE-BODY';
-const SEND_MESSAGE = 'SEND-MESSAGE'
-
-export const storeOld: StoreType = {
+const storeOld: StoreType = {
     _state: {
         profilePage: {
             posts: [
@@ -49,7 +44,7 @@ export const storeOld: StoreType = {
     },
 
     dispatch(action) {
-        this._state.profilePage = profileReducer(this._state.profilePage, action as ProfileActionsType )
+        this._state.profilePage = profileReducer(this._state.profilePage, action as ProfileActionsType)
         this._state.dialogsPage = dialogsReducer(this._state.dialogsPage, action as DialogsActionsType)
         this._state.sidebar = sidebarReducer(this._state.sidebar, action)
         this._callSubscriber(this._state)
@@ -57,41 +52,40 @@ export const storeOld: StoreType = {
 }
 
 //types:
-export type StoreType = {
+type StoreType = {
     _state: StateType
     getState: () => StateType
     _callSubscriber: (...args: any) => void
-    subscribe: (observer: any) => void
+    subscribe: (observer: () => void) => void
     dispatch: (action: ActionsType) => void
 }
-export type StateType = {
+type StateType = {
     profilePage: {
         posts: PostsType[]
         newPostText: string
     }
-    dialogsPage: {
-        dialogs: DialogsType[]
-        messages: MessagesType[]
-        newMessageBody: string
-    }
+    dialogsPage: DialogPageType
     sidebar: {}
 }
-export type PostsType = {
+type DialogPageType = {
+    dialogs: DialogsType[]
+    messages: MessagesType[]
+    newMessageBody: string
+}
+type PostsType = {
     id: number
     post: string
     likesCount: number
 }
-// export
 type DialogsType = {
     id: number
     name: string
 }
-// export
 type MessagesType = {
     id: number
     message: string
 }
-export type ActionsType =
+type ActionsType =
     | ProfileActionsType
     | DialogsActionsType
 
