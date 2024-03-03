@@ -1,12 +1,22 @@
 import {connect} from "react-redux";
-import {Users} from "./Users";
 import {AppStateType} from "../../redux/redux-store";
 import {Dispatch} from "redux";
-import {followAC, InitialStateType, setUsersAC, unFollowAC, userType} from "../../redux/users-reducer";
+import {
+    followAC,
+    InitialStateType,
+    setCurrentPageAC,
+    setUsersAC,
+    unFollowAC,
+    userType
+} from "../../redux/users-reducer";
+import {Users} from "./Users";
 
 const mapStateToProps = (state: AppStateType): MapStateToPropsType => {
     return {
-        users: state.usersPage.users
+        users: state.usersPage.users,
+        pageSize: state.usersPage.pageSize,
+        totalUsersCount: state.usersPage.totalUsersCount,
+        currentPage: state.usersPage.currentPage
     }
 }
 
@@ -20,6 +30,9 @@ const mapDispatchToProps = (dispatch: Dispatch): MapDispatchToPropsType => {
         },
         setUsers: (users: userType[]) => {
             dispatch(setUsersAC(users))
+        },
+        setCurrentPage: (pageNumber: number) => {
+            dispatch(setCurrentPageAC(pageNumber))
         }
     }
 }
@@ -33,5 +46,6 @@ type MapDispatchToPropsType = {
     follow: (userId: number) => void
     unFollow: (userId: number) => void
     setUsers: (users: userType[]) => void
+    setCurrentPage: (pageNumber: number) => void
 }
-export type MyPostsPropsType = MapStateToPropsType & MapDispatchToPropsType
+export type UsersPropsType = MapStateToPropsType & MapDispatchToPropsType

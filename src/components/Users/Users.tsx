@@ -1,58 +1,80 @@
-import React from "react";
-import {MyPostsPropsType} from "./UsersContainer";
-import s from './Users.module.css'
+import React, {MouseEventHandler} from "react";
+import s from "./Users.module.css";
+import userPhoto from "../../assets/no-profile-picture-icon.webp";
+import axios from "axios";
+import {userType} from "../../redux/users-reducer";
+import {UsersPropsType} from "./UsersContainer";
 
-export const Users: React.FC<MyPostsPropsType> = (props) => {
+const instance = axios.create({
+    baseURL: ' https://social-network.samuraijs.com/api/1.0'
+})
 
-    if (props.users.length === 0) {
-        props.setUsers([
-            {
-                id: 1, fullName: 'Ivan', followed: true, status: 'I am a boss',
-                location: {country: 'Russia', city: 'Moscow'},
-                photoUrl: 'https://e7.pngegg.com/pngimages/304/305/png-clipart-man-with-formal-suit-illustration-web-development-computer-icons-avatar-business-user-profile-child-face.png'
-            },
-            {
-                id: 2, fullName: 'Alexandra', followed: false, status: 'Hey there!',
-                location: {country: 'Spain', city: 'Valencia'},
-                photoUrl: 'https://img.freepik.com/premium-vector/girl-s-face-with-beautiful-smile-female-avatar-website-social-network_499739-527.jpg?w=740'
-            },
-            {
-                id: 3, fullName: 'Ayse', followed: true, status: 'I\'ve got an apartment for rent',
-                location: {country: 'Turkey', city: 'Antalya'},
-                photoUrl: 'https://img.freepik.com/premium-vector/girl-s-face-with-beautiful-smile-female-avatar-website-social-network_499739-527.jpg?w=740'
-            },
-            {
-                id: 4, fullName: 'Dmitry', followed: false, status: 'try my REACT-REDUX course',
-                location: {country: 'Belarus', city: 'Minsk'},
-                photoUrl: 'https://e7.pngegg.com/pngimages/304/305/png-clipart-man-with-formal-suit-illustration-web-development-computer-icons-avatar-business-user-profile-child-face.png'
-            },
-        ])
+//TODO: [lesson 53] доделать/проверить типизацию для React.Component<any, any>
+export class Users extends React.Component<UsersPropsType> {
+
+    componentDidMount() {
+        instance.get<GetUsersResponseType>(`/users?page=${this.props.currentPage}&count=${this.props.pageSize}`)
+            .then(res => {
+                this.props.setUsers(res.data.items)
+                //TODO: [lesson 55] добавить в reducer "setTotalUsersCount"
+                // this.props.setTotalUsersCount(res.data.totalCount)
+            })
+    }
+    onPageChangedHandler = (pageNumber: number ) => {
+        this.props.setCurrentPage(pageNumber)
+        instance.get<GetUsersResponseType>(`/users?page=${pageNumber}&count=${this.props.pageSize}`)
+            .then(res => {
+                this.props.setUsers(res.data.items)
+            })
     }
 
-    return (
-        <div>
+    render() {
+
+        const pagesCount = Math.ceil(this.props.totalUsersCount / this.props.pageSize)
+
+        let pages: number[] = []
+
+        for (let i = 1; i <= pagesCount; i++) {
+            pages.push(i)
+        }
+
+        return <div>
+            <div>
+                {pages.map(p =>
+                    <span
+                        onClick={() => this.onPageChangedHandler(p)}
+                        className={this.props.currentPage === p ? s.selectedPage : ''}
+                    >{p}</span>)}
+            </div>
             {
-                props.users.map(u => <div key={u.id} className={s.item}>
+                this.props.users.map(u => <div key={u.id} className={s.item}>
                     <span>
                         <div>
-                            <img src={u.photoUrl} alt="userPhoto" className={s.userPhoto}/>
+                            <img src={u.photos.small || userPhoto} alt="userPhoto" className={s.userPhoto}/>
                         </div>
                         <div>
                             {u.followed
-                                ? <button onClick={() => props.unFollow(u.id)}>Unfollow</button>
-                                : <button onClick={() => props.follow(u.id)}>Follow</button>}
+                                ? <button onClick={() => this.props.unFollow(u.id)}>Unfollow</button>
+                                : <button onClick={() => this.props.follow(u.id)}>Follow</button>}
                         </div>
                     </span>
                     <span>
-                        <div><b>{u.fullName}</b></div>
+                        <div><b>{u.name}</b></div>
                         <div><i>{u.status}</i></div>
                     </span>
                     <span>
-                        <div>{u.location.country}</div>
-                        <div>{u.location.city}</div>
+                        <div>{"u.location.country"}</div>
+                        <div>{"u.location.city"}</div>
                     </span>
                 </div>)
             }
         </div>
-    );
+    }
+}
+
+//types:
+type GetUsersResponseType = {
+    items: userType[]
+    totalCount: number
+    error: string | null
 }
