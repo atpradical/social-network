@@ -1,61 +1,59 @@
-import React, {MouseEventHandler} from "react";
+import React from 'react';
 import s from "./Users.module.css";
 import userPhoto from "../../assets/no-profile-picture-icon.webp";
-import axios from "axios";
 import {userType} from "../../redux/users-reducer";
-import {UsersPropsType} from "./UsersContainer";
+import {NavLink} from "react-router-dom";
+import {ResponseType, RESULT_CODE} from "../Header/HeaderContainer";
+import {instance} from "../../api/api";
 
-const instance = axios.create({
-    baseURL: ' https://social-network.samuraijs.com/api/1.0'
-})
+export const Users: React.FC<UsersType> = (props) => {
 
-//TODO: [lesson 53] доделать/проверить типизацию для React.Component<any, any>
-export class Users extends React.Component<UsersPropsType> {
+    const pagesCount = Math.ceil(props.totalUsersCount / props.pageSize)
 
-    componentDidMount() {
-        instance.get<GetUsersResponseType>(`/users?page=${this.props.currentPage}&count=${this.props.pageSize}`)
-            .then(res => {
-                this.props.setUsers(res.data.items)
-                //TODO: [lesson 55] добавить в reducer "setTotalUsersCount"
-                // this.props.setTotalUsersCount(res.data.totalCount)
-            })
+    let pages: number[] = []
+    for (let i = 1; i <= pagesCount; i++) {
+        pages.push(i)
     }
-    onPageChangedHandler = (pageNumber: number ) => {
-        this.props.setCurrentPage(pageNumber)
-        instance.get<GetUsersResponseType>(`/users?page=${pageNumber}&count=${this.props.pageSize}`)
-            .then(res => {
-                this.props.setUsers(res.data.items)
-            })
-    }
-
-    render() {
-
-        const pagesCount = Math.ceil(this.props.totalUsersCount / this.props.pageSize)
-
-        let pages: number[] = []
-
-        for (let i = 1; i <= pagesCount; i++) {
-            pages.push(i)
-        }
-
-        return <div>
+    return (
+        <div>
             <div>
                 {pages.map(p =>
                     <span
-                        onClick={() => this.onPageChangedHandler(p)}
-                        className={this.props.currentPage === p ? s.selectedPage : ''}
+                        onClick={() => props.onPageChangedHandler(p)}
+                        className={props.currentPage === p ? s.selectedPage : ''}
                     >{p}</span>)}
             </div>
             {
-                this.props.users.map(u => <div key={u.id} className={s.item}>
+                props.users.map(u => <div key={u.id} className={s.item}>
                     <span>
                         <div>
-                            <img src={u.photos.small || userPhoto} alt="userPhoto" className={s.userPhoto}/>
+                            <NavLink to={`/profile/${u.id}`}>
+                                <img src={u.photos.small || userPhoto} alt="userPhoto" className={s.userPhoto}/>
+                            </NavLink>
                         </div>
                         <div>
                             {u.followed
-                                ? <button onClick={() => this.props.unFollow(u.id)}>Unfollow</button>
-                                : <button onClick={() => this.props.follow(u.id)}>Follow</button>}
+                                ? <button onClick={() => {
+
+                                    instance.delete<ResponseType>(`/follow/${u.id}`)
+                                        .then(res => {
+                                            if (res.data.resultCode === RESULT_CODE.SUCCESS) {
+                                                props.unFollow(u.id)
+                                            }
+                                        })
+
+                                }}>Unfollow</button>
+                                : <button onClick={() => {
+
+                                    instance.post<ResponseType>(`/follow/${u.id}`, {})
+                                        .then(res => {
+                                            if (res.data.resultCode === RESULT_CODE.SUCCESS) {
+                                                props.follow(u.id)
+                                            }
+                                        })
+                                }
+
+                                }>Follow</button>}
                         </div>
                     </span>
                     <span>
@@ -69,12 +67,16 @@ export class Users extends React.Component<UsersPropsType> {
                 </div>)
             }
         </div>
-    }
-}
+    );
+};
 
-//types:
-type GetUsersResponseType = {
-    items: userType[]
-    totalCount: number
-    error: string | null
+//type:
+type UsersType = {
+    totalUsersCount: number
+    pageSize: number
+    onPageChangedHandler: (pageNumber: number) => void
+    currentPage: number
+    users: userType[]
+    follow: (userId: number) => void
+    unFollow: (userId: number) => void
 }

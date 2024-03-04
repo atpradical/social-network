@@ -1,6 +1,7 @@
 import {ProfileActionsType, profileReducer} from "./profile-reducer";
 import {DialogsActionsType, dialogsReducer} from "./dialogs-reducer";
 import {sidebarReducer} from "./sidebar-reducer";
+import {UserProfileType} from "../components/Profile/ProfileContainer";
 
 const storeOld: StoreType = {
     _state: {
@@ -11,7 +12,8 @@ const storeOld: StoreType = {
                 {id: 3, post: 'IT-KAMASUTRA', likesCount: 0},
                 {id: 4, post: 'BEST social network', likesCount: 1},
             ],
-            newPostText: 'it-kamasutra.com'
+            newPostText: 'it-kamasutra.com',
+            profile: null
         },
         dialogsPage: {
             messages: [
@@ -63,6 +65,7 @@ type StateType = {
     profilePage: {
         posts: PostsType[]
         newPostText: string
+        profile: UserProfileType | null
     }
     dialogsPage: DialogPageType
     sidebar: {}

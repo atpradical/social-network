@@ -8,5 +8,31 @@
 
 .header img {
     width: 160px;
-    height: 120px;
+    height: 110px;
+}
+
+.loginBlock {
+    float: right;
+    text-align: center;
+    margin: 20px;
+    border: 1px solid #074819;
+    border-radius: 20px;
+    height: 38px;
+}
+
+.loginBlock a {
+    display: inline-block;
+    margin: 10px;
+    color: #074819;
+    text-decoration: none;
+    font-weight: bold;
+    font-family: sans-serif;
+}
+
+.loginBlock .loggedIn {
+    font-weight: bold;
+    font-family: sans-serif;
+    color: #ef7736;
+    width: fit-content;
+    padding:10px;
 }
