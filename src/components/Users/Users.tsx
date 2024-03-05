@@ -1,10 +1,8 @@
 import React from 'react';
 import s from "./Users.module.css";
 import userPhoto from "../../assets/no-profile-picture-icon.webp";
-import {userType} from "../../redux/users-reducer";
 import {NavLink} from "react-router-dom";
-import {ResponseType, RESULT_CODE} from "../Header/HeaderContainer";
-import {instance} from "../../api/api";
+import {userType} from "../../redux/users-reducer";
 
 export const Users: React.FC<UsersType> = (props) => {
 
@@ -33,27 +31,14 @@ export const Users: React.FC<UsersType> = (props) => {
                         </div>
                         <div>
                             {u.followed
-                                ? <button onClick={() => {
-
-                                    instance.delete<ResponseType>(`/follow/${u.id}`)
-                                        .then(res => {
-                                            if (res.data.resultCode === RESULT_CODE.SUCCESS) {
-                                                props.unFollow(u.id)
-                                            }
-                                        })
-
-                                }}>Unfollow</button>
-                                : <button onClick={() => {
-
-                                    instance.post<ResponseType>(`/follow/${u.id}`, {})
-                                        .then(res => {
-                                            if (res.data.resultCode === RESULT_CODE.SUCCESS) {
-                                                props.follow(u.id)
-                                            }
-                                        })
-                                }
-
-                                }>Follow</button>}
+                                ? <button disabled={props.followingInProgress.some(id => id === u.id)}
+                                          onClick={() => {
+                                              props.unFollow(u.id)
+                                          }}>Unfollow</button>
+                                : <button disabled={props.followingInProgress.some(id => id === u.id)}
+                                          onClick={() => {
+                                              props.follow(u.id)
+                                          }}>Follow</button>}
                         </div>
                     </span>
                     <span>
@@ -77,6 +62,7 @@ type UsersType = {
     onPageChangedHandler: (pageNumber: number) => void
     currentPage: number
     users: userType[]
+    followingInProgress: number[]
     follow: (userId: number) => void
     unFollow: (userId: number) => void
 }

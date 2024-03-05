@@ -1,4 +1,5 @@
-import {UserAuthType} from "../components/Header/HeaderContainer";
+import {authAPI, RESULT_CODE, UserAuthType} from "../api/api";
+import {Dispatch} from "redux";
 
 const SET_USER_DATA = 'SET-USER-DATA';
 
@@ -18,9 +19,23 @@ export const authReducer = (state: InitialStateType = initialState, action: Auth
             return state
     }
 }
+
+
 //actions:
-export const setAuthUserData = (data: UserAuthType) =>
+const setAuthUserData = (data: UserAuthType) =>
     ({type: SET_USER_DATA, data} as const)
+
+
+//thunks:
+export const getAuthUserData = () => (dispatch:Dispatch)=>{
+    authAPI.me()
+        .then(res => {
+            if (res.data.resultCode === RESULT_CODE.SUCCESS) {
+                dispatch(setAuthUserData(res.data.data))
+            }
+        })
+}
+
 
 //types:
 export type InitialStateType = {
@@ -30,6 +45,5 @@ export type InitialStateType = {
     isAuth: boolean
     isFetching: boolean
 }
-
 type AuthActionsType =
     | ReturnType<typeof setAuthUserData>

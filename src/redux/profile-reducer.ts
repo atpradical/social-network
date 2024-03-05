@@ -1,4 +1,6 @@
-import {UserProfileType} from "../components/Profile/ProfileContainer";
+import {UserProfileType, usersAPI} from "../api/api";
+import {Dispatch} from "redux";
+import {toggleIsFetching} from "./users-reducer";
 
 const ADD_POST = 'ADD-POST';
 const UPDATE_NEW_POST_TEXT = 'UPDATE-NEW-POST-TEXT';
@@ -28,10 +30,22 @@ export const profileReducer = (state: InitialStateType = initialState, action: P
             return state
     }
 }
+
+
 //actions:
 export const addPostAC = () => ({type: ADD_POST} as const)
 export const updateNewPostTextAC = (newText: string) => ({type: UPDATE_NEW_POST_TEXT, newText} as const)
-export const setUserProfile = (profile: UserProfileType) => ({type: SET_USER_PROFILE, profile} as const)
+const setUserProfile = (profile: UserProfileType) => ({type: SET_USER_PROFILE, profile} as const)
+
+//thunks:
+export const getUserProfile = (userId: number) => (dispatch: Dispatch) => {
+   dispatch(toggleIsFetching(true))
+    usersAPI.getProfile(userId)
+        .then(res => {
+            dispatch(setUserProfile(res.data))
+        })
+}
+
 
 //types:
 export type PostsType = {

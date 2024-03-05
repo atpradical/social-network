@@ -1,5 +1,5 @@
 import axios from "axios";
-import {userType} from "../redux/users-reducer";
+import {ProfilePhotosType, userType} from "../redux/users-reducer";
 
 export const instance = axios.create({
     baseURL: ' https://social-network.samuraijs.com/api/1.0',
@@ -14,7 +14,28 @@ export const usersAPI = {
                 return response.data
             })
     },
+    follow(userId: number){
+        return instance.post<ResponseType>(`/follow/${userId}`, {})
+    },
+    unFollow(userId: number){
+        return instance.delete<ResponseType>(`/follow/${userId}`)
+    },
+    getProfile(userId: number) {
+        return instance.get<UserProfileType>(`/profile/` + userId)
+    }
+}
 
+export const authAPI = {
+    me(){
+        return  instance.get<ResponseType<UserAuthType>>(`/auth/me`)
+    }
+}
+
+
+//enums:
+export enum RESULT_CODE {
+    SUCCESS = 0,
+    FAILED = 1
 }
 
 //types:
@@ -22,4 +43,34 @@ type GetUsersResponseType = {
     items: userType[]
     totalCount: number
     error: string | null
+}
+export type ResponseType<T = {}> = {
+    data: T
+    messages: string[];
+    fieldsErrors: string[];
+    resultCode: number;
+}
+export type UserProfileType = {
+    aboutMe: string;
+    contacts: ProfileContactsType;
+    lookingForAJob: boolean;
+    lookingForAJobDescription: string;
+    fullName: string;
+    userId: number;
+    photos: ProfilePhotosType;
+}
+type ProfileContactsType = {
+    facebook: string;
+    website: string;
+    vk: string;
+    twitter: string;
+    instagram: string;
+    youtube: string;
+    github: string;
+    mainLink: string;
+}
+export type UserAuthType = {
+    id: number;
+    email: string;
+    login: string;
 }

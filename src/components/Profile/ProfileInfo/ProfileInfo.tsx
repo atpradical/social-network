@@ -1,8 +1,8 @@
 import React from 'react';
 import s from './ProfileInfo.module.css'
-import {UserProfileType} from "../ProfileContainer";
 import userPhoto from '../../../assets/no-profile-picture-icon.webp'
 import {Preloader} from "../../Common/Preloader";
+import {UserProfileType} from "../../../api/api";
 
 export const ProfileInfo: React.FC<ProfileInfoType> = (props) => {
 

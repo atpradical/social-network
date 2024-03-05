@@ -1,7 +1,7 @@
 import {ProfileActionsType, profileReducer} from "./profile-reducer";
 import {DialogsActionsType, dialogsReducer} from "./dialogs-reducer";
 import {sidebarReducer} from "./sidebar-reducer";
-import {UserProfileType} from "../components/Profile/ProfileContainer";
+import {UserProfileType} from "../api/api";
 
 const storeOld: StoreType = {
     _state: {
