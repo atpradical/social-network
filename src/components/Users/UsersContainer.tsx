@@ -10,9 +10,10 @@ import {
 import React from "react";
 import {Users} from "./Users";
 import {Preloader} from "../Common/Preloader";
+import {withAuthRedirect} from "../../hoc/withAuthRedirect";
+import {Dialogs} from "../Dialogs/Dialogs";
+import {compose} from "redux";
 
-
-//TODO: [lesson 53] доделать/проверить типизацию для React.Component<any, any>
 class UsersContainer extends React.Component<UsersContainerPropsType> {
 
     componentDidMount() {
@@ -55,6 +56,7 @@ const mapStateToProps = (state: AppStateType): MapStateToPropsType => {
     }
 }
 
+// let withRediretcUserContainer = withAuthRedirect(UsersContainer)
 // const mapDispatchToProps = (dispatch: Dispatch): MapDispatchToPropsType => {
 //     return {
 //         follow: (userId: number) => {
@@ -78,10 +80,17 @@ const mapStateToProps = (state: AppStateType): MapStateToPropsType => {
 //     }
 // }
 // export default connect(mapStateToProps, mapDispatchToProps)(UsersContainer)
-export default connect(mapStateToProps, {
-    unFollowSuccess, followSuccess,
-    getUsers, follow, unFollow
-} as MapDispatchToPropsType)(UsersContainer)
+// export default connect(mapStateToProps, {
+//     unFollowSuccess,
+//     followSuccess,
+//     getUsers,
+//     follow,
+//     unFollow
+// } as MapDispatchToPropsType)(withRediretcUserContainer)
+export default compose<React.ComponentType>(
+    withAuthRedirect,
+    connect(mapStateToProps, {unFollowSuccess, followSuccess, getUsers, follow, unFollow} as MapDispatchToPropsType)
+)(UsersContainer)
 
 
 //types:

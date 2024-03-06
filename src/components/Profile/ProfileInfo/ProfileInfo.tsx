@@ -3,6 +3,7 @@ import s from './ProfileInfo.module.css'
 import userPhoto from '../../../assets/no-profile-picture-icon.webp'
 import {Preloader} from "../../Common/Preloader";
 import {UserProfileType} from "../../../api/api";
+import {ProfileStatus} from "./ProfileStatus";
 
 export const ProfileInfo: React.FC<ProfileInfoType> = (props) => {
 
@@ -22,6 +23,8 @@ export const ProfileInfo: React.FC<ProfileInfoType> = (props) => {
                          alt="profile avatar"/>
                 </div>
                 <span><b>{props.profile.fullName}</b></span>
+                <hr/>
+                <ProfileStatus/>
                 <hr/>
                 <div>
                     <div><b>facebook: </b><span>{props.profile.contacts.facebook}</span></div>

@@ -37,6 +37,7 @@ export const addPostAC = () => ({type: ADD_POST} as const)
 export const updateNewPostTextAC = (newText: string) => ({type: UPDATE_NEW_POST_TEXT, newText} as const)
 const setUserProfile = (profile: UserProfileType) => ({type: SET_USER_PROFILE, profile} as const)
 
+
 //thunks:
 export const getUserProfile = (userId: number) => (dispatch: Dispatch) => {
    dispatch(toggleIsFetching(true))

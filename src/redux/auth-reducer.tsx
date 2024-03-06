@@ -28,7 +28,8 @@ const setAuthUserData = (data: UserAuthType) =>
 
 //thunks:
 export const getAuthUserData = () => (dispatch:Dispatch)=>{
-    authAPI.me()
+    //обязательно return для возвращения промиса
+  return authAPI.me()
         .then(res => {
             if (res.data.resultCode === RESULT_CODE.SUCCESS) {
                 dispatch(setAuthUserData(res.data.data))
