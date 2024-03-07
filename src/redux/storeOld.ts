@@ -13,7 +13,8 @@ const storeOld: StoreType = {
                 {id: 4, post: 'BEST social network', likesCount: 1},
             ],
             newPostText: 'it-kamasutra.com',
-            profile: null
+            profile: null,
+            status: ''
         },
         dialogsPage: {
             messages: [
@@ -66,6 +67,7 @@ type StateType = {
         posts: PostsType[]
         newPostText: string
         profile: UserProfileType | null
+        status: string
     }
     dialogsPage: DialogPageType
     sidebar: {}

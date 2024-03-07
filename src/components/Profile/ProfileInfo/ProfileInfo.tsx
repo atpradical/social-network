@@ -5,7 +5,7 @@ import {Preloader} from "../../Common/Preloader";
 import {UserProfileType} from "../../../api/api";
 import {ProfileStatus} from "./ProfileStatus";
 
-export const ProfileInfo: React.FC<ProfileInfoType> = (props) => {
+export const ProfileInfo: React.FC<ProfileInfoPropsType> = (props) => {
 
     if (!props.profile) {
         return <Preloader/>
@@ -24,7 +24,7 @@ export const ProfileInfo: React.FC<ProfileInfoType> = (props) => {
                 </div>
                 <span><b>{props.profile.fullName}</b></span>
                 <hr/>
-                <ProfileStatus/>
+                <ProfileStatus status={props.status} updateUserStatus={props.updateUserStatus}/>
                 <hr/>
                 <div>
                     <div><b>facebook: </b><span>{props.profile.contacts.facebook}</span></div>
@@ -52,6 +52,8 @@ const largeProfilePhoto = {
 
 
 //types:
-type ProfileInfoType = {
+type ProfileInfoPropsType = {
     profile: UserProfileType | null
+    status: string
+    updateUserStatus: (status: string) => void
 }

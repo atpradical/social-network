@@ -8,8 +8,8 @@ export const Profile:React.FC<ProfilePropsType> = (props) => {
 
     return (
         <div className={s.content}>
-            <ProfileInfo profile={props.profile}/>
-            <MyPostsContainer/>
+            <ProfileInfo profile={props.profile} status={props.status} updateUserStatus={props.updateUserStatus}/>
+            <MyPostsContainer />
         </div>
     );
 };
@@ -17,4 +17,6 @@ export const Profile:React.FC<ProfilePropsType> = (props) => {
 // types:
 type ProfilePropsType = {
     profile: UserProfileType | null
+    status: string
+    updateUserStatus: (status: string) => void
 }

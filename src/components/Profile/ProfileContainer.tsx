@@ -2,7 +2,7 @@ import React from 'react';
 import {Profile} from "./Profile";
 import {connect} from "react-redux";
 import {AppStateType} from "../../redux/redux-store";
-import {getUserProfile} from "../../redux/profile-reducer";
+import {getUserProfile, getUserStatus, updateUserStatus} from "../../redux/profile-reducer";
 import {RouteComponentProps, withRouter} from "react-router-dom";
 import {UserProfileType} from "../../api/api";
 import {withAuthRedirect} from "../../hoc/withAuthRedirect";
@@ -12,17 +12,19 @@ class ProfileContainer extends React.Component<ProfileContainerPropsType> {
 
     componentDidMount() {
         let userId = this.props.match.params.userId
-        if (!userId) userId = '2'
+        if (!userId) userId = '30325'
         this.props.getUserProfile(+userId)
+        this.props.getUserStatus(+userId)
     }
 
     render() {
-        return (<Profile {...this.props}/>);
+        return (<Profile {...this.props} status={this.props.status} updateUserStatus={this.props.updateUserStatus}/>);
     }
 };
 
 const mapStateToProps = (state: AppStateType): MapStateToPropsType => ({
     profile: state.profilePage.profile,
+    status: state.profilePage.status
 })
 // let AuthRedirectComponent = withAuthRedirect<ProfileContainerPropsType>(ProfileContainer)
 // const withRouterDataContainerComponent = withRouter<ProfileContainerPropsType, any>(AuthRedirectComponent)
@@ -30,7 +32,7 @@ const mapStateToProps = (state: AppStateType): MapStateToPropsType => ({
 
 
 export default compose<React.ComponentType>(
-    connect(mapStateToProps, {getUserProfile} as MapDispatchToPropsType),
+    connect(mapStateToProps, {getUserProfile, getUserStatus, updateUserStatus} as MapDispatchToPropsType),
     withRouter,
     withAuthRedirect
 )(ProfileContainer)
@@ -41,9 +43,12 @@ export type RouterPathParamsType = {
 }
 type MapStateToPropsType = {
     profile: UserProfileType | null
+    status: string
 }
 type MapDispatchToPropsType = {
     getUserProfile: (userId: number) => void
+    getUserStatus: (userId: number) => void
+    updateUserStatus: (status: string) => void
 
 }
 type ProfileContainerPropsType =
