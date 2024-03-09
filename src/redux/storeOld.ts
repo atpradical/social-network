@@ -12,7 +12,6 @@ const storeOld: StoreType = {
                 {id: 3, post: 'IT-KAMASUTRA', likesCount: 0},
                 {id: 4, post: 'BEST social network', likesCount: 1},
             ],
-            newPostText: 'it-kamasutra.com',
             profile: null,
             status: ''
         },
@@ -31,7 +30,6 @@ const storeOld: StoreType = {
                 {id: 5, name: 'Viktor'},
                 {id: 6, name: 'Valera'}
             ],
-            newMessageBody: ''
         },
         sidebar: {}
     },
@@ -65,7 +63,6 @@ type StoreType = {
 type StateType = {
     profilePage: {
         posts: PostsType[]
-        newPostText: string
         profile: UserProfileType | null
         status: string
     }
@@ -75,7 +72,6 @@ type StateType = {
 type DialogPageType = {
     dialogs: DialogsType[]
     messages: MessagesType[]
-    newMessageBody: string
 }
 type PostsType = {
     id: number

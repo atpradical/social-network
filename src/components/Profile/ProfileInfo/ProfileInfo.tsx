@@ -1,7 +1,7 @@
 import React from 'react';
 import s from './ProfileInfo.module.css'
 import userPhoto from '../../../assets/no-profile-picture-icon.webp'
-import {Preloader} from "../../Common/Preloader";
+import {Preloader} from "../../Common/Preloder/Preloader";
 import {UserProfileType} from "../../../api/api";
 import {ProfileStatus} from "./ProfileStatus";
 

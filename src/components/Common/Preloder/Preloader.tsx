@@ -1,5 +1,5 @@
 import React from 'react';
-import isLoading from "../../assets/preLoader.svg";
+import isLoading from "../../../assets/preLoader.svg";
 
 export const Preloader:React.FC = () => {
     return (

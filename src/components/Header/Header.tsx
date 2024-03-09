@@ -13,8 +13,11 @@ export const Header: React.FC<HeaderPropsType> = (props) => {
             />
             <div className={s.loginBlock}>
                 {props.auth.isAuth
-                    ? <div className={s.loggedIn}>{props.auth.login}</div>
-                    : <NavLink to={'/login'}>Login</NavLink>
+                    ? <div>
+                        <div className={s.loggedIn}>{props.auth.login}</div>
+                        <button onClick={props.logout}>log out</button>
+                    </div>
+                    : <NavLink to={'/login'}>Please login</NavLink>
                 }
             </div>
         </header>
@@ -24,4 +27,5 @@ export const Header: React.FC<HeaderPropsType> = (props) => {
 //types:
 type HeaderPropsType = {
     auth: InitialStateType
+    logout: () => void
 }

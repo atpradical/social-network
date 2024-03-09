@@ -1,9 +1,9 @@
-import React, {ChangeEvent} from 'react';
+import React from 'react';
 import s from './Dialogs.module.css'
 import {DialogItem} from "./DialogItem/DialogItem";
 import {Message} from "./Message/Message";
 import {DialogsPropsType} from "./DialogsContainer";
-import {Redirect} from "react-router-dom";
+import {AddMessageFormRedux, MessageFormDataType} from "./AddMessageForm/AddMessageForm";
 
 export const Dialogs: React.FC<DialogsPropsType> = (props) => {
 
@@ -11,23 +11,13 @@ export const Dialogs: React.FC<DialogsPropsType> = (props) => {
 
     const dialogsElements = state.dialogs.map(d =>
         <DialogItem key={d.id} name={d.name} id={d.id}/>)
+
     const messagesElements = state.messages.map(m =>
         <Message key={m.id} message={m.message}/>)
-    const newMessageBody = state.newMessageBody
 
-    const onSendMessageClick = () => {
-        props.sendMessage()
+    const addNewMessage = (formData: MessageFormDataType) => {
+        props.sendMessage(formData.newMessageBody)
     }
-
-    function onNewMessageChange(e: ChangeEvent<HTMLTextAreaElement>) {
-        const body = e.currentTarget.value
-        props.updateNewMessageBody(body)
-    }
-
-    // if (!props.isAuth) {
-    //     return <Redirect to={'/login'}/>
-    // }
-
 
     return (
         <div className={s.dialogs}>
@@ -36,18 +26,14 @@ export const Dialogs: React.FC<DialogsPropsType> = (props) => {
             </div>
             <div className={s.messages}>
                 <div>{messagesElements}</div>
-                <div>
-                    <div><textarea
-                        cols={75} rows={10}
-                        placeholder={'enter new message'}
-                        value={newMessageBody}
-                        onChange={onNewMessageChange}
-                    ></textarea></div>
-                    <div>
-                        <button onClick={onSendMessageClick}>Send</button>
-                    </div>
-                </div>
+                <AddMessageFormRedux onSubmit={addNewMessage}/>
             </div>
         </div>
     );
 };
+
+
+
+
+
+
