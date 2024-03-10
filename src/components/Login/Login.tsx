@@ -23,13 +23,16 @@ const Login: FC<LoginPropsType> = (props) => {
     );
 };
 
-const LoginForm: React.FC<InjectedFormProps<LoginFormDataType>> = (props) => {
+const LoginForm: React.FC<InjectedFormProps<LoginFormDataType>> = ({
+                                                                       handleSubmit,
+                                                                       error,
+                                                                   }) => {
     return (
         <div>
             <div>
                 <h1>Login</h1>
             </div>
-            <form onSubmit={props.handleSubmit}>
+            <form onSubmit={handleSubmit}>
                 <div>
                     <Field
                         type="text"
@@ -53,7 +56,7 @@ const LoginForm: React.FC<InjectedFormProps<LoginFormDataType>> = (props) => {
                         <Field component={Input} name={'rememberMe'} type={'checkbox'}/>Remember me
                     </label>
                 </div>
-                {props.error && <div className={s.formSummaryError}>{props.error}</div>}
+                {error && <div className={s.formSummaryError}>{error}</div>}
                 <div>
                     <button type={'submit'}>Login</button>
                 </div>

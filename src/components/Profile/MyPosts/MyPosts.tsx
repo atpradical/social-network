@@ -6,7 +6,7 @@ import {Field, InjectedFormProps, reduxForm} from "redux-form";
 import {maxLengthCreator, requiredFiled} from "../../../utils/validators/validators";
 import {TextArea} from "../../Common/FormsControl/FromsControls";
 
-export const MyPosts: React.FC<MyPostsPropsType> = (props) => {
+export const MyPosts = React.memo((props: MyPostsPropsType) => {
 
     const postsElements = props.posts.map(p => <Post key={p.id} message={p.post} likesCount={p.likesCount}/>)
 
@@ -24,7 +24,7 @@ export const MyPosts: React.FC<MyPostsPropsType> = (props) => {
         </div>
     )
         ;
-};
+});
 
 const maxLenght30 =  maxLengthCreator(30)
 

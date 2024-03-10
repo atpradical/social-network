@@ -4,7 +4,7 @@ import {ThunkDispatch} from "redux-thunk";
 import {AppStateType} from "./redux-store";
 import {stopSubmit} from "redux-form";
 
-const SET_USER_DATA = 'SET-USER-DATA';
+const SET_USER_DATA = 'AUTH/SET-USER-DATA';
 
 const initialState = {
     id: null,
@@ -30,38 +30,30 @@ const setAuthUserData = (id: number | null, email: string | null, login: string 
 
 
 //thunks:
-export const getAuthUserData = () => (dispatch: Dispatch) => {
+export const getAuthUserData = () => async (dispatch: Dispatch) => {
     //обязательно return для возвращения промиса
-    return authAPI.me()
-        .then(res => {
-            if (res.data.resultCode === RESULT_CODE.SUCCESS) {
-                const {id, email, login} = res.data.data
-                dispatch(setAuthUserData(id, email, login, true))
-            }
-        })
+    const response = await authAPI.me()
+    if (response.data.resultCode === RESULT_CODE.SUCCESS) {
+        const {id, email, login} = response.data.data
+        dispatch(setAuthUserData(id, email, login, true))
+    }
 }
-
-export const login = (email: string, password: string, rememberMe: boolean) => (dispatch: ThunkDispatch<AppStateType, unknown, AuthActionsType>) => {
+export const login = (email: string, password: string, rememberMe: boolean) => async (dispatch: ThunkDispatch<AppStateType, unknown, AuthActionsType>) => {
     //обязательно return для возвращения промиса
-    return authAPI.login(email, password, rememberMe)
-        .then(res => {
-            if (res.data.resultCode === RESULT_CODE.SUCCESS) {
-                dispatch(getAuthUserData());
-            } else {
-                let message = res.data.messages.length > 0 ? res.data.messages[0] : 'Some error occured...'
-                dispatch(stopSubmit('login', {_error: message}))
-            }
-        })
+    const response = await authAPI.login(email, password, rememberMe)
+    if (response.data.resultCode === RESULT_CODE.SUCCESS) {
+        dispatch(getAuthUserData());
+    } else {
+        let message = response.data.messages.length > 0 ? response.data.messages[0] : 'Some error occured...'
+        dispatch(stopSubmit('login', {_error: message}))
+    }
 }
-
-export const logout = () => (dispatch: ThunkDispatch<AppStateType, unknown, AuthActionsType>) => {
+export const logout = () => async (dispatch: ThunkDispatch<AppStateType, unknown, AuthActionsType>) => {
     //обязательно return для возвращения промиса
-    return authAPI.logout()
-        .then(res => {
-            if (res.data.resultCode === RESULT_CODE.SUCCESS) {
-                dispatch(setAuthUserData(null, null, null, false))
-            }
-        })
+    const response = await authAPI.logout()
+    if (response.data.resultCode === RESULT_CODE.SUCCESS) {
+        dispatch(setAuthUserData(null, null, null, false))
+    }
 }
 
 
