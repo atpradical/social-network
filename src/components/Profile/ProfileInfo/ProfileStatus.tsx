@@ -19,14 +19,15 @@ export class ProfileStatus extends React.Component<ProfileStatusPropsType, Profi
         this.setState({status: e.currentTarget.value})
     }
 
-    componentDidUpdate(prevProps: Readonly<ProfileStatusPropsType>, prevState: Readonly<ProfileStatusStateType>) {
-        if (prevProps.status !== this.state.status) {
-            this.setState({status: this.state.status})
-        }
-    }
+    // componentDidUpdate(prevProps: Readonly<ProfileStatusPropsType>, prevState: Readonly<ProfileStatusStateType>) {
+    //     console.log(prevProps)
+    //     console.log(this.state)
+    //     // if (prevProps.status !== this.state.status) {
+    //     //     this.setState({status: this.state.status})
+    //     // }
+    // }
 
     render() {
-
         return (
             <>
                 {!this.state.editMode &&

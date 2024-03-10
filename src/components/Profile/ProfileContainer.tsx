@@ -11,8 +11,12 @@ import {compose} from "redux";
 class ProfileContainer extends React.Component<ProfileContainerPropsType> {
 
     componentDidMount() {
-        let userId = +this.props.match.params.userId
-        if (!userId && this.props.isAuth) userId = this.props.authorizedUserId!
+        let userId: number | null = +this.props.match.params.userId
+        if (!userId) {
+            userId = this.props.authorizedUserId
+        } else if (!userId) {
+            this.props.history.push('/login')
+        }
         this.props.getUserProfile(userId)
         this.props.getUserStatus(userId)
     }
@@ -48,8 +52,8 @@ type MapStateToPropsType = {
     isAuth: boolean
 }
 type MapDispatchToPropsType = {
-    getUserProfile: (userId: number) => void
-    getUserStatus: (userId: number) => void
+    getUserProfile: (userId: number | null) => void
+    getUserStatus: (userId: number | null) => void
     updateUserStatus: (status: string) => void
 
 }

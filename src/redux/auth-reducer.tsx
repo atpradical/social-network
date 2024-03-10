@@ -1,4 +1,4 @@
-import {authAPI, RESULT_CODE, UserAuthType} from "../api/api";
+import {authAPI, RESULT_CODE} from "../api/api";
 import {Dispatch} from "redux";
 import {ThunkDispatch} from "redux-thunk";
 import {AppStateType} from "./redux-store";

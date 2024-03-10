@@ -32,7 +32,7 @@ export const profileReducer = (state: InitialStateType = initialState, action: P
 
 
 //actions:
-export const addPostAC = (newPostText: string ) => ({type: ADD_POST, newPostText} as const)
+export const addPostAC = (newPostText: string) => ({type: ADD_POST, newPostText} as const)
 const setUserProfile = (profile: UserProfileType) => ({type: SET_USER_PROFILE, profile} as const)
 const setUserStatus = (status: string) => ({type: SET_STATUS, status} as const)
 
@@ -55,7 +55,7 @@ export const getUserStatus = (userId: number) => (dispatch: Dispatch) => {
 export const updateUserStatus = (status: string) => (dispatch: Dispatch) => {
     profileAPI.updateStatus(status)
         .then(res => {
-            if(res.data.resultCode === RESULT_CODE.SUCCESS) {
+            if (res.data.resultCode === RESULT_CODE.SUCCESS) {
                 dispatch(setUserStatus(status))
             }
         })

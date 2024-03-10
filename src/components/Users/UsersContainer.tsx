@@ -3,16 +3,20 @@ import {AppStateType} from "../../redux/redux-store";
 import {
     unFollowSuccess,
     followSuccess, follow,
-    getUsers,
+    requestUsers,
     InitialStateType,
     unFollow,
 } from "../../redux/users-reducer";
 import React from "react";
 import {Users} from "./Users";
 import {Preloader} from "../Common/Preloder/Preloader";
-import {withAuthRedirect} from "../../hoc/withAuthRedirect";
-import {Dialogs} from "../Dialogs/Dialogs";
 import {compose} from "redux";
+import {
+    getCurrentPageSelector, getFollowingInProgressSelector, getIsFetchingSelector,
+    getPageSizeSelector,
+    getTotalUsersCountSelector,
+    getUsersSelector, getUsersSuperSelector
+} from "../../redux/users-selectors";
 
 class UsersContainer extends React.Component<UsersContainerPropsType> {
 
@@ -45,14 +49,24 @@ class UsersContainer extends React.Component<UsersContainerPropsType> {
     }
 }
 
+// const mapStateToProps = (state: AppStateType): MapStateToPropsType => {
+//     return {
+//         users: state.usersPage.users,
+//         pageSize: state.usersPage.pageSize,
+//         totalUsersCount: state.usersPage.totalUsersCount,
+//         currentPage: state.usersPage.currentPage,
+//         isFetching: state.usersPage.isFetching,
+//         followingInProgress: state.usersPage.followingInProgress
+//     }
+// }
 const mapStateToProps = (state: AppStateType): MapStateToPropsType => {
     return {
-        users: state.usersPage.users,
-        pageSize: state.usersPage.pageSize,
-        totalUsersCount: state.usersPage.totalUsersCount,
-        currentPage: state.usersPage.currentPage,
-        isFetching: state.usersPage.isFetching,
-        followingInProgress: state.usersPage.followingInProgress
+        users: getUsersSuperSelector(state),
+        pageSize: getPageSizeSelector(state),
+        totalUsersCount: getTotalUsersCountSelector(state),
+        currentPage: getCurrentPageSelector(state),
+        isFetching: getIsFetchingSelector(state),
+        followingInProgress: getFollowingInProgressSelector(state)
     }
 }
 
@@ -83,13 +97,13 @@ const mapStateToProps = (state: AppStateType): MapStateToPropsType => {
 // export default connect(mapStateToProps, {
 //     unFollowSuccess,
 //     followSuccess,
-//     getUsers,
+//     requestUsers,
 //     follow,
 //     unFollow
 // } as MapDispatchToPropsType)(withRediretcUserContainer)
 export default compose<React.ComponentType>(
-    withAuthRedirect,
-    connect(mapStateToProps, {unFollowSuccess, followSuccess, getUsers, follow, unFollow} as MapDispatchToPropsType)
+    // withAuthRedirect,
+    connect(mapStateToProps, {unFollowSuccess, followSuccess, getUsers: requestUsers, follow, unFollow} as MapDispatchToPropsType)
 )(UsersContainer)
 
 

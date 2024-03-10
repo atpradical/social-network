@@ -4,6 +4,7 @@ import userPhoto from '../../../assets/no-profile-picture-icon.webp'
 import {Preloader} from "../../Common/Preloder/Preloader";
 import {UserProfileType} from "../../../api/api";
 import {ProfileStatus} from "./ProfileStatus";
+import {ProfileStatusWithHooks} from "./ProfileStatusWithHooks";
 
 export const ProfileInfo: React.FC<ProfileInfoPropsType> = (props) => {
 
@@ -25,6 +26,7 @@ export const ProfileInfo: React.FC<ProfileInfoPropsType> = (props) => {
                 <span><b>{props.profile.fullName}</b></span>
                 <hr/>
                 <ProfileStatus status={props.status} updateUserStatus={props.updateUserStatus}/>
+                {/*<ProfileStatusWithHooks status={props.status} updateUserStatus={props.updateUserStatus}/>*/}
                 <hr/>
                 <div>
                     <div><b>facebook: </b><span>{props.profile.contacts.facebook}</span></div>
@@ -49,7 +51,6 @@ const largeProfilePhoto = {
     border: '1px solid dimgrey',
     borderRadius: '5%'
 }
-
 
 //types:
 type ProfileInfoPropsType = {
