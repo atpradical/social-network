@@ -1,5 +1,5 @@
 import axios from "axios";
-import {ProfilePhotosType, userType} from "../redux/users-reducer";
+import {ProfilePhotosType, UserType} from "../redux/users-reducer";
 
 export const instance = axios.create({
     baseURL: ' https://social-network.samuraijs.com/api/1.0',
@@ -60,7 +60,7 @@ export enum RESULT_CODE {
 
 //types:
 type GetUsersResponseType = {
-    items: userType[]
+    items: UserType[]
     totalCount: number
     error: string | null
 }

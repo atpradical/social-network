@@ -11,7 +11,7 @@ export class ProfileStatus extends React.Component<ProfileStatusPropsType, Profi
 
     deactivateEditMode = () => {
         this.setState({editMode: false})
-        this.props.updateUserStatus(this.state.status)
+        this.props?.updateUserStatus?.(this.state.status)
     }
 
     // statusInputRef = React.createRef<HTMLInputElement>()

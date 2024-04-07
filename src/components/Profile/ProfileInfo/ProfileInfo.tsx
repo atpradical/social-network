@@ -4,11 +4,10 @@ import userPhoto from '../../../assets/no-profile-picture-icon.webp'
 import {Preloader} from "../../Common/Preloder/Preloader";
 import {UserProfileType} from "../../../api/api";
 import {ProfileStatus} from "./ProfileStatus";
-import {ProfileStatusWithHooks} from "./ProfileStatusWithHooks";
 
-export const ProfileInfo: React.FC<ProfileInfoPropsType> = (props) => {
+export const ProfileInfo: React.FC<ProfileInfoPropsType> = ({profile, status, updateUserStatus}) => {
 
-    if (!props.profile) {
+    if (!profile) {
         return <Preloader/>
     }
 
@@ -20,23 +19,22 @@ export const ProfileInfo: React.FC<ProfileInfoPropsType> = (props) => {
             </div>
             <div className={s.descriptionBlock}>
                 <div>
-                    <img style={largeProfilePhoto} src={props.profile?.photos.large || userPhoto}
+                    <img style={largeProfilePhoto} src={profile?.photos.large || userPhoto}
                          alt="profile avatar"/>
                 </div>
-                <span><b>{props.profile.fullName}</b></span>
+                <span><b>{profile.fullName}</b></span>
                 <hr/>
-                <ProfileStatus status={props.status} updateUserStatus={props.updateUserStatus}/>
-                {/*<ProfileStatusWithHooks status={props.status} updateUserStatus={props.updateUserStatus}/>*/}
+                <ProfileStatus status={status} updateUserStatus={updateUserStatus}/>
                 <hr/>
                 <div>
-                    <div><b>facebook: </b><span>{props.profile.contacts.facebook}</span></div>
-                    <div><b>website: </b><span>{props.profile.contacts.website}</span></div>
-                    <div><b>vk: </b><span>{props.profile.contacts.vk}</span></div>
-                    <div><b>twitter: </b><span>{props.profile.contacts.twitter}</span></div>
-                    <div><b>instagram: </b><span>{props.profile.contacts.instagram}</span></div>
-                    <div><b>youtube: </b><span>{props.profile.contacts.youtube}</span></div>
-                    <div><b>github: </b><span>{props.profile.contacts.github}</span></div>
-                    <div><b>mainLink: </b><span>{props.profile.contacts.mainLink}</span></div>
+                    <div><b>facebook: </b><span>{profile.contacts.facebook}</span></div>
+                    <div><b>website: </b><span>{profile.contacts.website}</span></div>
+                    <div><b>vk: </b><span>{profile.contacts.vk}</span></div>
+                    <div><b>twitter: </b><span>{profile.contacts.twitter}</span></div>
+                    <div><b>instagram: </b><span>{profile.contacts.instagram}</span></div>
+                    <div><b>youtube: </b><span>{profile.contacts.youtube}</span></div>
+                    <div><b>github: </b><span>{profile.contacts.github}</span></div>
+                    <div><b>mainLink: </b><span>{profile.contacts.mainLink}</span></div>
                 </div>
                 <hr/>
             </div>

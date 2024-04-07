@@ -1,21 +1,20 @@
 import React, {FC} from 'react';
 import {Field, InjectedFormProps, reduxForm} from "redux-form";
 import {Input} from "../Common/FormsControl/FromsControls";
-import {requiredFiled} from "../../utils/validators/validators";
 import {connect} from "react-redux";
-import {login} from "../../redux/auth-reducer";
 import {Redirect} from "react-router-dom";
-import {AppStateType} from "../../redux/redux-store";
 import s from '../Common/FormsControl/FromsControls.module.css'
+import {requiredFiled} from "../../utils/validators/validators";
+import {AppStateType} from "../../redux/redux-store";
+import {login} from "../../redux/auth-reducer";
 
-const Login: FC<LoginPropsType> = (props) => {
+const Login: FC<LoginPropsType> = ({isAuth, login} ) => {
     const onSubmit = (formData: LoginFormDataType) => {
-        console.log(formData)
         const {email, password, rememberMe} = formData
-        props.login(email, password, rememberMe)
+        login(email, password, rememberMe)
     }
 
-    if (props.isAuth) {
+    if (isAuth) {
         return <Redirect to={'/profile'}/>
     }
     return (

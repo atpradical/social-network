@@ -1,5 +1,6 @@
-import {Dispatch} from "redux";
-import {RESULT_CODE, usersAPI} from "../api/api";
+import {Action, Dispatch} from "redux";
+import {ResponseType, RESULT_CODE, usersAPI} from "../api/api";
+import {AxiosResponse} from "axios";
 
 const FOLLOW = 'USERS/FOLLOW';
 const UNFOLLOW = 'USERS/UNFOLLOW';
@@ -54,7 +55,7 @@ export const userReducer = (state: InitialStateType = initialState, action: Prof
 //actions:
 export const followSuccess = (userId: number) => ({type: FOLLOW, userId} as const)
 export const unFollowSuccess = (userId: number) => ({type: UNFOLLOW, userId} as const)
-export const setUsers = (users: userType[]) => ({type: SET_USERS, users} as const)
+export const setUsers = (users: UserType[]) => ({type: SET_USERS, users} as const)
 export const setCurrentPage = (currentPage: number) => ({type: SET_CURRENT_PAGE, currentPage} as const)
 export const setTotalUsersCount = (totalUsersCount: number) => ({type: SET_TOTAL_USERS_COUNT, totalUsersCount} as const)
 export const toggleIsFetching = (isFetching: boolean) => ({type: TOGGLE_IS_FETCHING, isFetching} as const)
@@ -73,26 +74,31 @@ export const requestUsers = (page: number, pageSize: number) => async (dispatch:
     dispatch(setTotalUsersCount(response.totalCount))
 }
 
-export const follow = (userId: number) => async (dispatch: Dispatch) => {
+export const followUnfollowFlow = async (dispatch: Dispatch, userId: number, ApiMethod: (userId: number) => Promise<AxiosResponse<ResponseType>>, ActionCreator: (userId: number) => Action) => {
     dispatch(toggleFollowingProgress(userId, true))
-    const response = await usersAPI.follow(userId)
+    const response = await ApiMethod(userId)
+
+    console.log(response.data.data)
+
+    // const response = await usersAPI.follow(userId)
     if (response.data.resultCode === RESULT_CODE.SUCCESS) {
-        dispatch(followSuccess(userId))
+        dispatch(ActionCreator(userId))
     }
     dispatch(toggleFollowingProgress(userId, false))
 }
-export const unFollow = (userId: number) => async (dispatch: Dispatch) => {
-    dispatch(toggleFollowingProgress(userId, true))
-    const response = await usersAPI.unFollow(userId)
-    if (response.data.resultCode === RESULT_CODE.SUCCESS) {
-        dispatch(unFollowSuccess(userId))
-    }
-    dispatch(toggleFollowingProgress(userId, false))
+
+export const follow = (userId: number) => (dispatch: Dispatch) => {
+    let ApiMethod = usersAPI.follow.bind(usersAPI)
+    followUnfollowFlow(dispatch, userId, ApiMethod, followSuccess)
+}
+export const unFollow = (userId: number) => (dispatch: Dispatch) => {
+    let ApiMethod = usersAPI.unFollow.bind(usersAPI)
+    followUnfollowFlow(dispatch, userId, ApiMethod, unFollowSuccess)
 }
 
 
 //types:
-export type userType = {
+export type UserType = {
     name: string
     id: number
     photos: ProfilePhotosType
@@ -104,7 +110,7 @@ export type ProfilePhotosType = {
     large: string | null
 }
 export type InitialStateType = {
-    users: userType[]
+    users: UserType[]
     pageSize: number
     totalUsersCount: number
     currentPage: number
