@@ -8,7 +8,13 @@ export const Profile:React.FC<ProfilePropsType> = (props) => {
 
     return (
         <div className={s.content}>
-            <ProfileInfo profile={props.profile} status={props.status} updateUserStatus={props.updateUserStatus}/>
+            <ProfileInfo
+                isOwner={props.isOwner}
+                profile={props.profile}
+                status={props.status}
+                updateUserStatus={props.updateUserStatus}
+                savePhoto={props.savePhoto}
+            />
             <MyPostsContainer />
         </div>
     );
@@ -16,7 +22,9 @@ export const Profile:React.FC<ProfilePropsType> = (props) => {
 
 // types:
 type ProfilePropsType = {
+    isOwner: boolean
     profile: UserProfileType | null
     status: string
     updateUserStatus: (status: string) => void
+    savePhoto: (photoFile: File) => void
 }

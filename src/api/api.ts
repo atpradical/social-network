@@ -4,7 +4,7 @@ import {ProfilePhotosType, UserType} from "../redux/users-reducer";
 export const instance = axios.create({
     baseURL: ' https://social-network.samuraijs.com/api/1.0',
     withCredentials: true,
-    headers : {"API-KEY": "2ddf97e0-ffe8-4ab0-8c33-a85de425721e"}
+    headers: {"API-KEY": "2ddf97e0-ffe8-4ab0-8c33-a85de425721e"}
 })
 
 export const usersAPI = {
@@ -14,10 +14,10 @@ export const usersAPI = {
                 return response.data
             })
     },
-    follow(userId: number){
+    follow(userId: number) {
         return instance.post<ResponseType>(`/follow/${userId}`, {})
     },
-    unFollow(userId: number){
+    unFollow(userId: number) {
         return instance.delete<ResponseType>(`/follow/${userId}`)
     },
     getProfile(userId: number) {
@@ -34,17 +34,27 @@ export const profileAPI = {
     getStatus(userId: number) {
         return instance.get<string>(`/profile/status/${userId}`)
     },
-    updateStatus(status: string){
-        return instance.put<ResponseType>('/profile/status',{status})
+    updateStatus(status: string) {
+        return instance.put<ResponseType>('/profile/status', {status})
+    },
+    savePhoto(file: File) {
+
+        const formData = new FormData()
+        formData.append('image', file)
+
+        return instance.put<ResponseType<UserProfileType>>(`/profile/photo`, formData, {
+            headers:
+                {"Content-Type": "multipart/form-data"}
+        })
     }
 }
 
 export const authAPI = {
-    me(){
-        return  instance.get<ResponseType<UserAuthType>>(`/auth/me`)
+    me() {
+        return instance.get<ResponseType<UserAuthType>>(`/auth/me`)
     },
     login(email: string, password: string, rememberMe: boolean = false) {
-        return instance.post<ResponseType<{userId: number}>>('/auth/login', {email, password, rememberMe})
+        return instance.post<ResponseType<{ userId: number }>>('/auth/login', {email, password, rememberMe})
     },
     logout() {
         return instance.delete<ResponseType>('/auth/login')

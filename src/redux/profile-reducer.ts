@@ -1,10 +1,12 @@
 import {profileAPI, RESULT_CODE, UserProfileType, usersAPI} from "../api/api";
 import {Dispatch} from "redux";
+import {ProfilePhotosType} from "./users-reducer";
 
 const ADD_POST = 'PROFILE/ADD-POST';
 const SET_USER_PROFILE = 'PROFILE/SET-USER-PROFILE';
 const SET_STATUS = 'PROFILE/SET-STATUS';
 const DELETE_POST = 'PROFILE/DELETE-POST'
+const SAVE_PHOTO_SUCCESS = 'PROFILE/SAVE-PHOTO-SUCCESS'
 
 const initialState: InitialStateType = {
     posts: [
@@ -31,6 +33,10 @@ export const profileReducer = (state: InitialStateType = initialState, action: P
                 ...state,
                 posts: state.posts.filter(p => p.id !== action.postId)
             }
+        case SAVE_PHOTO_SUCCESS:
+            return {
+                ...state, profile: {...state.profile!, photos: action.photos}
+            }
         default:
             return state
     }
@@ -42,6 +48,7 @@ export const addPostAC = (newPostText: string) => ({type: ADD_POST, newPostText}
 const setUserProfile = (profile: UserProfileType) => ({type: SET_USER_PROFILE, profile} as const)
 const setUserStatus = (status: string) => ({type: SET_STATUS, status} as const)
 export const deletePost = (postId: number) => ({type: DELETE_POST, postId} as const)
+export const savePhotoSuccess = (photos: ProfilePhotosType) => ({type: SAVE_PHOTO_SUCCESS, photos} as const)
 
 
 //thunks:
@@ -62,6 +69,13 @@ export const updateUserStatus = (status: string) => async (dispatch: Dispatch) =
     }
 }
 
+export const savePhoto = (photoFile: File) => async (dispatch: Dispatch) => {
+    const response = await profileAPI.savePhoto(photoFile)
+    if (response.data.resultCode === RESULT_CODE.SUCCESS) {
+        dispatch(savePhotoSuccess(response.data.data.photos))
+    }
+}
+
 
 //types:
 export type PostsType = {
@@ -73,10 +87,12 @@ export type InitialStateType = {
     posts: PostsType[]
     profile: UserProfileType | null
     status: string
+
 }
 export type ProfileActionsType =
     | ReturnType<typeof addPostAC>
     | ReturnType<typeof setUserProfile>
     | ReturnType<typeof setUserStatus>
     | ReturnType<typeof deletePost>
+    | ReturnType<typeof savePhotoSuccess>
 

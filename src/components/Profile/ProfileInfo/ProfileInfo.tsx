@@ -1,14 +1,25 @@
-import React from 'react';
+import React, {ChangeEvent} from 'react';
 import s from './ProfileInfo.module.css'
 import userPhoto from '../../../assets/no-profile-picture-icon.webp'
 import {Preloader} from "../../Common/Preloder/Preloader";
 import {UserProfileType} from "../../../api/api";
 import {ProfileStatus} from "./ProfileStatus";
 
-export const ProfileInfo: React.FC<ProfileInfoPropsType> = ({profile, status, updateUserStatus}) => {
+export const ProfileInfo: React.FC<ProfileInfoPropsType> = ({isOwner,
+                                                                profile,
+                                                                status,
+                                                                updateUserStatus,
+                                                                savePhoto
+}) => {
 
     if (!profile) {
         return <Preloader/>
+    }
+
+    const onMainPhotoSelected = (e: ChangeEvent<HTMLInputElement>) => {
+        if (e.target.files && e.target.files.length) {
+            savePhoto(e.target.files[0])
+        }
     }
 
     return (
@@ -21,6 +32,7 @@ export const ProfileInfo: React.FC<ProfileInfoPropsType> = ({profile, status, up
                 <div>
                     <img style={largeProfilePhoto} src={profile?.photos.large || userPhoto}
                          alt="profile avatar"/>
+                    <div>{isOwner && <input type={"file"} onChange={onMainPhotoSelected}/>}</div>
                 </div>
                 <span><b>{profile.fullName}</b></span>
                 <hr/>
@@ -52,7 +64,9 @@ const largeProfilePhoto = {
 
 //types:
 type ProfileInfoPropsType = {
+    isOwner: boolean
     profile: UserProfileType | null
     status: string
     updateUserStatus: (status: string) => void
+    savePhoto: (photoFile: File) => void
 }
