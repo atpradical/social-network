@@ -8,7 +8,8 @@ import {requiredFiled} from "../../utils/validators/validators";
 import {AppStateType} from "../../redux/redux-store";
 import {login} from "../../redux/auth-reducer";
 
-const Login: FC<LoginPropsType> = ({isAuth, login} ) => {
+const Login: FC<LoginPropsType> = ({isAuth, login}) => {
+
     const onSubmit = (formData: LoginFormDataType) => {
         const {email, password, rememberMe} = formData
         login(email, password, rememberMe)

@@ -1,16 +1,21 @@
-import React, {ChangeEvent} from 'react';
+import React, {ChangeEvent, FC, useState} from 'react';
 import s from './ProfileInfo.module.css'
 import userPhoto from '../../../assets/no-profile-picture-icon.webp'
 import {Preloader} from "../../Common/Preloder/Preloader";
-import {UserProfileType} from "../../../api/api";
+import {ProfileContactsType, UserProfileType} from "../../../api/api";
 import {ProfileStatus} from "./ProfileStatus";
+import ProfileDataForm, {EditProfileFormDataType} from "./ProfileDataForm";
 
-export const ProfileInfo: React.FC<ProfileInfoPropsType> = ({isOwner,
+export const ProfileInfo: React.FC<ProfileInfoPropsType> = ({
+                                                                isOwner,
                                                                 profile,
                                                                 status,
                                                                 updateUserStatus,
-                                                                savePhoto
-}) => {
+                                                                savePhoto,
+                                                                saveProfile
+                                                            }) => {
+
+    const [editMode, setEditMode] = useState(false);
 
     if (!profile) {
         return <Preloader/>
@@ -20,6 +25,13 @@ export const ProfileInfo: React.FC<ProfileInfoPropsType> = ({isOwner,
         if (e.target.files && e.target.files.length) {
             savePhoto(e.target.files[0])
         }
+    }
+
+    const onSubmit = (formData: EditProfileFormDataType) => {
+        saveProfile(formData).then(() => {
+            setEditMode(false)
+        })
+
     }
 
     return (
@@ -34,25 +46,52 @@ export const ProfileInfo: React.FC<ProfileInfoPropsType> = ({isOwner,
                          alt="profile avatar"/>
                     <div>{isOwner && <input type={"file"} onChange={onMainPhotoSelected}/>}</div>
                 </div>
-                <span><b>{profile.fullName}</b></span>
-                <hr/>
+
                 <ProfileStatus status={status} updateUserStatus={updateUserStatus}/>
                 <hr/>
-                <div>
-                    <div><b>facebook: </b><span>{profile.contacts.facebook}</span></div>
-                    <div><b>website: </b><span>{profile.contacts.website}</span></div>
-                    <div><b>vk: </b><span>{profile.contacts.vk}</span></div>
-                    <div><b>twitter: </b><span>{profile.contacts.twitter}</span></div>
-                    <div><b>instagram: </b><span>{profile.contacts.instagram}</span></div>
-                    <div><b>youtube: </b><span>{profile.contacts.youtube}</span></div>
-                    <div><b>github: </b><span>{profile.contacts.github}</span></div>
-                    <div><b>mainLink: </b><span>{profile.contacts.mainLink}</span></div>
-                </div>
-                <hr/>
+
+                {editMode
+                    // @ts-ignore //todo fix types
+                    ? <ProfileDataForm
+                        initialValues={profile}
+                        setEditMode={setEditMode}
+                        onSubmit={onSubmit}
+                        profile={profile}
+                    />
+                    : <ProfileData profile={profile} isOwner={isOwner} setEditMode={setEditMode}/>}
+            </div>
+            <hr/>
+        </div>
+    )
+        ;
+};
+
+const ProfileData: FC<ProfileDataType> = ({profile, setEditMode, isOwner}) => {
+    return (
+        <div>
+            {isOwner && <div>
+                <button onClick={() => setEditMode(true)}>Edit</button>
+            </div>}
+            <span><b>{profile.fullName}</b></span>
+            <div><b>About me: </b><span>{profile.aboutMe}</span></div>
+            <hr/>
+            <div><b>Looking for a job: </b><span>{profile.lookingForAJob ? '⚒️ Yes' : '❌ No'}</span></div>
+            <div><b>My skills description: </b><span>{profile.lookingForAJobDescription}</span></div>
+            <hr/>
+            <div>
+                <b>Contacts: </b>{(Object.keys(profile.contacts) as Keys[]).map(key => {
+                return <Contact key={key} contactTitle={key} contactValue={profile.contacts[key]}/>
+            })}
             </div>
         </div>
-    );
-};
+    )
+}
+
+
+export const Contact: FC<ContactProps> = ({contactTitle, contactValue}) => {
+    return <div><b>{contactTitle}: </b><span>{contactValue}</span></div>
+}
+
 
 //inline-styles:
 const largeProfilePhoto = {
@@ -69,4 +108,22 @@ type ProfileInfoPropsType = {
     status: string
     updateUserStatus: (status: string) => void
     savePhoto: (photoFile: File) => void
+    //todo fix any
+    saveProfile: (profile: EditProfileFormDataType) => Promise<any>
 }
+
+type ContactProps = {
+    contactTitle: string
+    contactValue: string
+}
+
+export type Keys = keyof ProfileContactsType
+
+export type ProfileDataType = {
+    profile: UserProfileType
+    isOwner: boolean
+    setEditMode: (value: boolean) => void
+}
+
+
+

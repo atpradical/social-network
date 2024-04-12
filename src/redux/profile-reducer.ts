@@ -1,6 +1,10 @@
 import {profileAPI, RESULT_CODE, UserProfileType, usersAPI} from "../api/api";
 import {Dispatch} from "redux";
 import {ProfilePhotosType} from "./users-reducer";
+import {EditProfileFormDataType} from "../components/Profile/ProfileInfo/ProfileDataForm";
+import {AppStateType} from "./redux-store";
+import {ThunkDispatch} from "redux-thunk";
+import {stopSubmit} from "redux-form";
 
 const ADD_POST = 'PROFILE/ADD-POST';
 const SET_USER_PROFILE = 'PROFILE/SET-USER-PROFILE';
@@ -73,6 +77,19 @@ export const savePhoto = (photoFile: File) => async (dispatch: Dispatch) => {
     const response = await profileAPI.savePhoto(photoFile)
     if (response.data.resultCode === RESULT_CODE.SUCCESS) {
         dispatch(savePhotoSuccess(response.data.data.photos))
+    }
+}
+
+export const saveProfile = (profile: EditProfileFormDataType) => async (dispatch: ThunkDispatch<AppStateType, unknown, ProfileActionsType | ReturnType<typeof stopSubmit> >, getState: () => AppStateType) => {
+    const userId = getState().auth.id
+    const response = await profileAPI.saveProfile(profile)
+    if (response.data.resultCode === RESULT_CODE.SUCCESS) {
+        if (userId) {
+            dispatch(getUserProfile(userId))
+        }
+    }else {
+        dispatch(stopSubmit('edit-profile', {_error: response.data.messages[0]}))
+        return Promise.reject(response.data.messages[0])
     }
 }
 

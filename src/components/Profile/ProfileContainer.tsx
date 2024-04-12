@@ -2,11 +2,12 @@ import React from 'react';
 import {Profile} from "./Profile";
 import {connect} from "react-redux";
 import {AppStateType} from "../../redux/redux-store";
-import {getUserProfile, getUserStatus, savePhoto, updateUserStatus} from "../../redux/profile-reducer";
+import {getUserProfile, getUserStatus, savePhoto, saveProfile, updateUserStatus} from "../../redux/profile-reducer";
 import {RouteComponentProps, withRouter} from "react-router-dom";
 import {UserProfileType} from "../../api/api";
 import {withAuthRedirect} from "../../hoc/withAuthRedirect";
 import {compose} from "redux";
+import {EditProfileFormDataType} from "./ProfileInfo/ProfileDataForm";
 
 class ProfileContainer extends React.Component<ProfileContainerPropsType> {
 
@@ -39,6 +40,7 @@ class ProfileContainer extends React.Component<ProfileContainerPropsType> {
                          status={this.props.status}
                          updateUserStatus={this.props.updateUserStatus}
                          savePhoto={this.props.savePhoto}
+                         saveProfile={this.props.saveProfile}
 
         />);
     }
@@ -54,7 +56,7 @@ const mapStateToProps = (state: AppStateType): MapStateToPropsType => ({
 // const withRouterDataContainerComponent = withRouter<ProfileContainerPropsType, any>(AuthRedirectComponent)
 // export default connect(mapStateToProps, {getUserProfile} as MapDispatchToPropsType)(withRouterDataContainerComponent)
 export default compose<React.ComponentType>(
-    connect(mapStateToProps, {getUserProfile, getUserStatus, updateUserStatus, savePhoto} as MapDispatchToPropsType),
+    connect(mapStateToProps, {getUserProfile, getUserStatus, updateUserStatus, savePhoto, saveProfile} as MapDispatchToPropsType),
     withRouter,
     withAuthRedirect
 )(ProfileContainer)
@@ -74,6 +76,7 @@ type MapDispatchToPropsType = {
     getUserStatus: (userId: number | null) => void
     updateUserStatus: (status: string) => void
     savePhoto: (photoFile: File) => void
+    saveProfile: (profile: EditProfileFormDataType) => any
 
 }
 type ProfileContainerPropsType =

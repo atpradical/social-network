@@ -3,8 +3,9 @@ import s from './Profile.module.css';
 import {ProfileInfo} from "./ProfileInfo/ProfileInfo";
 import {MyPostsContainer} from "./MyPosts/MyPostsContainer";
 import {UserProfileType} from "../../api/api";
+import {EditProfileFormDataType} from "./ProfileInfo/ProfileDataForm";
 
-export const Profile:React.FC<ProfilePropsType> = (props) => {
+export const Profile: React.FC<ProfilePropsType> = (props) => {
 
     return (
         <div className={s.content}>
@@ -14,8 +15,9 @@ export const Profile:React.FC<ProfilePropsType> = (props) => {
                 status={props.status}
                 updateUserStatus={props.updateUserStatus}
                 savePhoto={props.savePhoto}
+                saveProfile={props.saveProfile}
             />
-            <MyPostsContainer />
+            <MyPostsContainer/>
         </div>
     );
 };
@@ -27,4 +29,6 @@ type ProfilePropsType = {
     status: string
     updateUserStatus: (status: string) => void
     savePhoto: (photoFile: File) => void
+    //todo fix any
+    saveProfile: (profile: EditProfileFormDataType) => Promise<any>
 }
