@@ -23,10 +23,7 @@ const Login: FC<LoginPropsType> = ({isAuth, login}) => {
     );
 };
 
-const LoginForm: React.FC<InjectedFormProps<LoginFormDataType>> = ({
-                                                                       handleSubmit,
-                                                                       error,
-                                                                   }) => {
+const LoginForm: React.FC<InjectedFormProps<LoginFormDataType>> = ({handleSubmit, error}) => {
     return (
         <div>
             <div>

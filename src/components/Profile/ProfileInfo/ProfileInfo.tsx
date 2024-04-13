@@ -4,7 +4,7 @@ import userPhoto from '../../../assets/no-profile-picture-icon.webp'
 import {Preloader} from "../../Common/Preloder/Preloader";
 import {ProfileContactsType, UserProfileType} from "../../../api/api";
 import {ProfileStatus} from "./ProfileStatus";
-import ProfileDataForm, {EditProfileFormDataType} from "./ProfileDataForm";
+import ProfileDataForm, {FormDataType} from "./ProfileDataForm";
 
 export const ProfileInfo: React.FC<ProfileInfoPropsType> = ({
                                                                 isOwner,
@@ -27,7 +27,7 @@ export const ProfileInfo: React.FC<ProfileInfoPropsType> = ({
         }
     }
 
-    const onSubmit = (formData: EditProfileFormDataType) => {
+    const onSubmit = (formData: FormDataType) => {
         saveProfile(formData).then(() => {
             setEditMode(false)
         })
@@ -51,12 +51,10 @@ export const ProfileInfo: React.FC<ProfileInfoPropsType> = ({
                 <hr/>
 
                 {editMode
-                    // @ts-ignore //todo fix types
                     ? <ProfileDataForm
                         initialValues={profile}
-                        setEditMode={setEditMode}
                         onSubmit={onSubmit}
-                        profile={profile}
+                        contacts={profile.contacts}
                     />
                     : <ProfileData profile={profile} isOwner={isOwner} setEditMode={setEditMode}/>}
             </div>
@@ -65,6 +63,7 @@ export const ProfileInfo: React.FC<ProfileInfoPropsType> = ({
     )
         ;
 };
+
 
 const ProfileData: FC<ProfileDataType> = ({profile, setEditMode, isOwner}) => {
     return (
@@ -108,8 +107,7 @@ type ProfileInfoPropsType = {
     status: string
     updateUserStatus: (status: string) => void
     savePhoto: (photoFile: File) => void
-    //todo fix any
-    saveProfile: (profile: EditProfileFormDataType) => Promise<any>
+    saveProfile: (profile: FormDataType) => Promise<void>
 }
 
 type ContactProps = {

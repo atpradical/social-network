@@ -1,12 +1,12 @@
-import React, {FC} from "react";
+import React from "react";
 import {Field, InjectedFormProps, reduxForm} from "redux-form";
 import {Input, TextArea} from "../../Common/FormsControl/FromsControls";
-import {UserProfileType} from "../../../api/api";
+import {ProfileContactsType} from "../../../api/api";
 import {Keys} from "./ProfileInfo";
 import s from "../../Common/FormsControl/FromsControls.module.css";
 
 
-const ProfileDataForm: FC<ProfileDataFormType> = ({profile, handleSubmit, error}) => {
+const ProfileDataForm: React.FC<InjectedFormProps<FormDataType, PropsType> & PropsType> = ({handleSubmit, error, contacts}) => {
 
     return (
         <form onSubmit={handleSubmit}>
@@ -54,8 +54,7 @@ const ProfileDataForm: FC<ProfileDataFormType> = ({profile, handleSubmit, error}
             <hr/>
             {error && <div className={s.formSummaryError}>{error}</div>}
             <div>
-                <b>Contacts: </b>{(Object.keys(profile.contacts) as Keys[]).map(key => {
-                // return <Contact key={key} contactTitle={key} contactValue={profile.contacts[key]}/>
+                <b>Contacts: </b>{(Object.keys(contacts) as Keys[]).map(key => {
                 return <div key={key}> {key}:
                     <Field
                         type="text"
@@ -71,31 +70,25 @@ const ProfileDataForm: FC<ProfileDataFormType> = ({profile, handleSubmit, error}
     )
 }
 
-// @ts-ignore //todo fix types
-const ProfileDataFormReduxForm = reduxForm<EditProfileFormDataType, ProfileDataFormType, any>({form: 'edit-profile'})(ProfileDataForm)
+export default reduxForm<FormDataType, PropsType>({form: "edit-profile"})(ProfileDataForm)
 
 
 //type:
-type ProfileDataFormType = {
-    profile: UserProfileType
-    setEditMode: (value: boolean) => void
-    onClick: (formData: EditProfileFormDataType) => void
-} & InjectedFormProps<ProfileDataFormType>
+type PropsType = {
+    contacts: ProfileContactsType
+}
 
-export type EditProfileFormDataType = {
+export type FormDataType = {
     fullName: string
     aboutMe: string
     lookingForAJob: boolean
     lookingForAJobDescription: string
-    //todo: check if it to get contacts types here automatically?
-    "contacts.facebook": string
-    "contacts.website": string
-    "contacts.vk": string
-    "contacts.twitter": string
-    "contacts.instagram": string
-    "contacts.youtube": string
-    "contacts.github": string
-    "contacts.mainLink": string
-}
-
-export default ProfileDataFormReduxForm
+    // "facebook": string
+    // "website": string
+    // "vk": string
+    // "twitter": string
+    // "instagram": string
+    // "youtube": string
+    // "github": string
+    // "mainLink": string
+} & ProfileContactsType

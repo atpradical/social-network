@@ -2,8 +2,8 @@ import React from 'react';
 import s from './Profile.module.css';
 import {ProfileInfo} from "./ProfileInfo/ProfileInfo";
 import {MyPostsContainer} from "./MyPosts/MyPostsContainer";
-import {UserProfileType} from "../../api/api";
-import {EditProfileFormDataType} from "./ProfileInfo/ProfileDataForm";
+import {ResponseType, UserProfileType} from "../../api/api";
+import {FormDataType} from "./ProfileInfo/ProfileDataForm";
 
 export const Profile: React.FC<ProfilePropsType> = (props) => {
 
@@ -29,6 +29,6 @@ type ProfilePropsType = {
     status: string
     updateUserStatus: (status: string) => void
     savePhoto: (photoFile: File) => void
-    //todo fix any
-    saveProfile: (profile: EditProfileFormDataType) => Promise<any>
+    // saveProfile: (profile: FormDataType) => Promise<ResponseType | string | undefined>
+    saveProfile: (profile: FormDataType) => Promise<void>
 }
