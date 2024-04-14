@@ -10,7 +10,7 @@ import {login} from "../../redux/auth-reducer";
 
 const Login: FC<LoginPropsType> = ({isAuth, login, captchaUrl}) => {
 
-    const onSubmit = (formData: LoginFormDataType) => {
+    const onSubmit = (formData: FormDataType) => {
         const {email, password, rememberMe, captcha} = formData
         console.log('SUBMITFORM : ', captcha)
         login(email, password, rememberMe, captcha)
@@ -24,8 +24,7 @@ const Login: FC<LoginPropsType> = ({isAuth, login, captchaUrl}) => {
     );
 };
 
-//todo: fix any
-const LoginForm: React.FC<InjectedFormProps<LoginFormDataType> & any> = ({handleSubmit, error, captchaUrl}) => {
+const LoginForm: React.FC<InjectedFormProps<FormDataType, LoginFormProps> & LoginFormProps> = ({handleSubmit, error, captchaUrl}) => {
     return (
         <div>
             <div>
@@ -73,7 +72,7 @@ const LoginForm: React.FC<InjectedFormProps<LoginFormDataType> & any> = ({handle
         </div>
     );
 }
-const LoginReduxForm = reduxForm<LoginFormDataType, Pick<LoginPropsType, 'captchaUrl' >>({form: 'login'})(LoginForm)
+const LoginReduxForm = reduxForm<FormDataType, LoginFormProps>({form: 'login'})(LoginForm)
 
 const mapStateToProps = (state: AppStateType) => {
     return {
@@ -86,7 +85,7 @@ export default connect(mapStateToProps, {login} as MapDispatchPropsType)(Login)
 
 
 //types:
-type LoginFormDataType = {
+type FormDataType = {
     email: string
     password: string
     rememberMe: boolean
@@ -100,3 +99,6 @@ type MapDispatchPropsType = {
     login: (email: string, password: string, rememberMe: boolean, captchaValue: string) => void
 }
 type LoginPropsType = MapStateToPropType & MapDispatchPropsType
+type LoginFormProps = {
+    captchaUrl: string | null
+}
