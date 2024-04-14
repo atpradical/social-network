@@ -67,9 +67,13 @@ export const getUserStatus = (userId: number) => async (dispatch: Dispatch) => {
 }
 
 export const updateUserStatus = (status: string) => async (dispatch: Dispatch) => {
-    const response = await profileAPI.updateStatus(status)
-    if (response.data.resultCode === RESULT_CODE.SUCCESS) {
-        dispatch(setUserStatus(status))
+    try {
+        const response = await profileAPI.updateStatus(status)
+        if (response.data.resultCode === RESULT_CODE.SUCCESS) {
+            dispatch(setUserStatus(status))
+        }
+    } catch(error: unknown) {
+        // some error handling logic
     }
 }
 

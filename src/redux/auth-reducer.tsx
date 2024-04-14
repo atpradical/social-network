@@ -51,7 +51,6 @@ export const login = (email: string, password: string, rememberMe: boolean, capt
     if (response.data.resultCode === RESULT_CODE.SUCCESS) {
         dispatch(getAuthUserData());
 
-        //todo: Question should i clean capthaUrl in state after success login ?
         dispatch(getCaptchaUrlSuccess(''))
     } else {
         if (response.data.resultCode === RESULT_CODE.CAPTCHA) {

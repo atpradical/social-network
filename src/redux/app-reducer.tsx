@@ -8,7 +8,8 @@ import {AppStateType} from "./redux-store";
 const INITIALIZED_SUCCESS = 'SET-SUCCESS';
 
 const initialState = {
-    isInitialized: false
+    isInitialized: false,
+    globalError: null
 }
 
 export const appReducer = (state: InitialStateType = initialState, action: AuthActionsType): InitialStateType => {
@@ -40,6 +41,7 @@ export const initializeApp = () => (dispatch: ThunkDispatch<AppStateType, unknow
 //types:
 export type InitialStateType = {
     isInitialized: boolean
+    globalError: string | null
 }
 type AuthActionsType =
     | ReturnType<typeof initializedSuccess>
