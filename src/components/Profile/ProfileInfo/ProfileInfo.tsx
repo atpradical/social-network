@@ -2,17 +2,14 @@ import React, {ChangeEvent, FC, useState} from 'react';
 import s from './ProfileInfo.module.css'
 import userPhoto from '../../../assets/no-profile-picture-icon.webp'
 import {Preloader} from "../../Common/Preloder/Preloader";
-import {ProfileContactsType, UserProfileType} from "../../../api/api";
+import {ProfileContacts, UserProfile} from "../../../api/api";
 import {ProfileStatus} from "./ProfileStatus";
 import ProfileDataForm, {FormDataType} from "./ProfileDataForm";
 
 export const ProfileInfo: React.FC<ProfileInfoPropsType> = ({
-                                                                isOwner,
-                                                                profile,
-                                                                status,
-                                                                updateUserStatus,
-                                                                savePhoto,
-                                                                saveProfile
+                                                                isOwner, profile,
+                                                                status, updateUserStatus,
+                                                                savePhoto, saveProfile
                                                             }) => {
 
     const [editMode, setEditMode] = useState(false);
@@ -103,7 +100,7 @@ const largeProfilePhoto = {
 //types:
 type ProfileInfoPropsType = {
     isOwner: boolean
-    profile: UserProfileType | null
+    profile: UserProfile | null
     status: string
     updateUserStatus: (status: string) => void
     savePhoto: (photoFile: File) => void
@@ -115,10 +112,10 @@ type ContactProps = {
     contactValue: string
 }
 
-export type Keys = keyof ProfileContactsType
+export type Keys = keyof ProfileContacts
 
 export type ProfileDataType = {
-    profile: UserProfileType
+    profile: UserProfile
     isOwner: boolean
     setEditMode: (value: boolean) => void
 }

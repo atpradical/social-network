@@ -1,4 +1,4 @@
-import React, {lazy} from 'react';
+import React, {FC, lazy} from 'react';
 import './App.css';
 import {BrowserRouter, Redirect, Route, RouteComponentProps, Switch, withRouter} from "react-router-dom";
 import ProfileContainer, {RouterPathParamsType} from "./components/Profile/ProfileContainer";
@@ -12,20 +12,22 @@ import {AppStateType, store} from "./redux/redux-store";
 import {initializeApp} from "./redux/app-reducer";
 import UsersContainer from "./components/Users/UsersContainer";
 import {withSuspense} from "./hoc/withSuspense";
-// import {DialogsContainer} from "./components/Dialogs/DialogsContainer";
+
+
 const DialogsContainer = lazy(async () => {
     const module = await import("./components/Dialogs/DialogsContainer")
     return {default: module.DialogsContainer}
 })
 
+const SuspendedDialogs = withSuspense(DialogsContainer)
+
 
 class App extends React.Component<AppPropsTypes> {
 
-    catchAllUnhandledErrors = (promiseRejectionEvent: unknown) => {
+    catchAllUnhandledErrors = (e: PromiseRejectionEvent) => {
         alert("Some error occured")
-        console.error(promiseRejectionEvent)
+        console.error(e)
     }
-
 
     componentDidMount() {
         this.props.initializeApp()
@@ -45,21 +47,10 @@ class App extends React.Component<AppPropsTypes> {
                 <HeaderContainer/>
                 <NavBar/>
                 <div className={'app-wrapper-content'}>
-                    {/*<Route path={'/dialogs'} render={() => {*/}
-                    {/*    return withSuspense( DialogsContainer)*/}
-                    {/*    // <React.Suspense fallback={<Preloader/>}>*/}
-                    {/*    //     <DialogsContainer/>*/}
-                    {/*    // </React.Suspense>*/}
-                    {/*}}/> */}
                     <Switch>
                         <Route exact path={'/'} render={() => <Redirect to={"/profile"}/>
                         }/>
-                        <Route path={'/dialogs'} render={
-                            withSuspense(DialogsContainer)
-                            // <React.Suspense fallback={<Preloader/>}>
-                            //     <DialogsContainer/>
-                            // </React.Suspense>
-                        }/>
+                        <Route path={'/dialogs'} render={() => <SuspendedDialogs/>}/>
                         <Route path={'/profile/:userId?'} render={() => <ProfileContainer/>}/>
                         <Route path={'/users'} render={() => <UsersContainer/>}/>
                         <Route path={'/login'} render={() => <Login/>}/>
@@ -77,13 +68,12 @@ const mapStateToProps = (state: AppStateType): MapStateToProps => {
     }
 }
 
-const AppContainer = compose<React.ComponentType>(
-    withRouter,
+const AppContainer = compose<React.ComponentType>(withRouter,
     connect(mapStateToProps, {initializeApp} as MapDispatchToPropsType))(App)
 
 
 //todo: change surround to <HashRouter>
-const SamuraiJSApp = () => {
+const SamuraiJSApp: FC = () => {
     return <BrowserRouter>
         <Provider store={store}>
             <AppContainer/>

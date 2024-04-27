@@ -1,7 +1,7 @@
 import React from "react";
 import {Field, InjectedFormProps, reduxForm} from "redux-form";
 import {Input, TextArea} from "../../Common/FormsControl/FromsControls";
-import {ProfileContactsType} from "../../../api/api";
+import {ProfileContacts} from "../../../api/api";
 import {Keys} from "./ProfileInfo";
 import s from "../../Common/FormsControl/FromsControls.module.css";
 
@@ -75,7 +75,7 @@ export default reduxForm<FormDataType, PropsType>({form: "edit-profile"})(Profil
 
 //type:
 type PropsType = {
-    contacts: ProfileContactsType
+    contacts: ProfileContacts
 }
 
 export type FormDataType = {
@@ -91,4 +91,4 @@ export type FormDataType = {
     // "youtube": string
     // "github": string
     // "mainLink": string
-} & ProfileContactsType
+} & ProfileContacts

@@ -1,14 +1,12 @@
-import React, {useState} from 'react';
+import React, {FC, useState} from 'react';
 import s from "./Paginator.module.css";
 import cn from 'classnames';
 
-export const Paginator: React.FC<Props> = ({
-                                               totalItemsCount,
-                                               pageSize,
-                                               onPageChangedHandler,
-                                               currentPage,
-                                               portionSize = 10
-                                           }) => {
+export const Paginator: FC<Props> = ({
+                                         totalItemsCount, pageSize,
+                                         onPageChanged, currentPage,
+                                         portionSize = 10
+                                     }) => {
 
     const pagesCount = Math.ceil(totalItemsCount / pageSize)
 
@@ -31,7 +29,7 @@ export const Paginator: React.FC<Props> = ({
                     .map((p, index) => {
                         return <span key={index} className={cn({[s.selectedPage]: p === currentPage}, s.pageNumber)}
                                      onClick={() => {
-                                         onPageChangedHandler(p)
+                                         onPageChanged(p)
                                      }}>{p}</span>
                     })
             }
@@ -41,40 +39,11 @@ export const Paginator: React.FC<Props> = ({
     )
 }
 
+//types:
 type Props = {
     totalItemsCount: number
     pageSize: number
-    onPageChangedHandler: (pageNumber: number) => void
+    onPageChanged: (pageNumber: number) => void
     currentPage: number
     portionSize?: number
 }
-
-// import React from 'react';
-// import s from "./Paginator.module.css";
-// export const Paginator: React.FC<Props> =
-// ({totalUsersCount, pageSize, onPageChangedHandler, currentPage}) => {
-//
-//     const pagesCount = Math.ceil(totalUsersCount / pageSize)
-//
-//     let pages: number[] = []
-//     for (let i = 1; i <= pagesCount; i++) {
-//         pages.push(i)
-//     }
-//     return (
-//         <div>
-//             {pages.map(p =>
-//                 <span
-//                     onClick={() => onPageChangedHandler(p)}
-//                     className={currentPage === p ? s.selectedPage : ''}
-//                 >{p}</span>)}
-//         </div>
-//     );
-// };
-//
-//type:
-// type Props = {
-//     totalUsersCount: number
-//     pageSize: number
-//     onPageChangedHandler: (pageNumber: number) => void
-//     currentPage: number
-// }

@@ -1,18 +1,14 @@
-import {authAPI, RESULT_CODE} from "../api/api";
-import {Dispatch} from "redux";
-import {stopSubmit} from "redux-form";
 import {getAuthUserData} from "./auth-reducer";
-import {ThunkDispatch} from "redux-thunk";
-import {AppStateType} from "./redux-store";
+import {BaseThunkType} from "./redux-store";
 
-const INITIALIZED_SUCCESS = 'SET-SUCCESS';
+const INITIALIZED_SUCCESS = 'APP/SET-SUCCESS';
 
-const initialState = {
+const initialState: InitialState = {
     isInitialized: false,
     globalError: null
 }
 
-export const appReducer = (state: InitialStateType = initialState, action: AuthActionsType): InitialStateType => {
+export const appReducer = (state = initialState, action: AuthActions): InitialState => {
     switch (action.type) {
         case INITIALIZED_SUCCESS:
             return {...state, ...action.payload}
@@ -28,7 +24,7 @@ const initializedSuccess = (isInitialized: boolean) =>
 
 
 //thunks:
-export const initializeApp = () => (dispatch: ThunkDispatch<AppStateType, unknown, AuthActionsType>) => {
+export const initializeApp = (): BaseThunkType<AuthActions, void> => (dispatch) => {
     const promise = dispatch(getAuthUserData())
     Promise.all([promise])
         .then(() => {
@@ -39,9 +35,9 @@ export const initializeApp = () => (dispatch: ThunkDispatch<AppStateType, unknow
 
 
 //types:
-export type InitialStateType = {
+export type InitialState = {
     isInitialized: boolean
     globalError: string | null
 }
-type AuthActionsType =
+type AuthActions =
     | ReturnType<typeof initializedSuccess>

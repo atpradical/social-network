@@ -1,11 +1,11 @@
-import React from 'react';
+import React, {FC} from 'react';
 import s from './Dialogs.module.css'
 import {DialogItem} from "./DialogItem/DialogItem";
 import {Message} from "./Message/Message";
 import {DialogsPropsType} from "./DialogsContainer";
 import {AddMessageFormRedux, MessageFormDataType} from "./AddMessageForm/AddMessageForm";
 
-export const Dialogs: React.FC<DialogsPropsType> = (props) => {
+export const Dialogs: FC<DialogsPropsType> = (props) => {
 
     const state = props.dialogsPage
 

@@ -6,7 +6,7 @@ describe('Paginator compoment test', () => {
         const component = create(<Paginator
             currentPage={1}
             pageSize={1}
-            onPageChangedHandler={() => {}}
+            onPageChanged={() => {}}
             totalItemsCount={11}
             portionSize={10}/>)
 
@@ -19,7 +19,7 @@ describe('Paginator compoment test', () => {
         const component = create(<Paginator
             currentPage={1}
             pageSize={1}
-            onPageChangedHandler={() => {}}
+            onPageChanged={() => {}}
             totalItemsCount={11}
             portionSize={10}/>)
 

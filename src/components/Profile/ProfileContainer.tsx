@@ -4,7 +4,7 @@ import {connect} from "react-redux";
 import {AppStateType} from "../../redux/redux-store";
 import {getUserProfile, getUserStatus, savePhoto, saveProfile, updateUserStatus} from "../../redux/profile-reducer";
 import {RouteComponentProps, withRouter} from "react-router-dom";
-import { UserProfileType} from "../../api/api";
+import { UserProfile} from "../../api/api";
 import {withAuthRedirect} from "../../hoc/withAuthRedirect";
 import {compose} from "redux";
 import {FormDataType} from "./ProfileInfo/ProfileDataForm";
@@ -54,7 +54,7 @@ const mapStateToProps = (state: AppStateType): MapStateToPropsType => ({
 })
 // let AuthRedirectComponent = withAuthRedirect<ProfileContainerPropsType>(ProfileContainer)
 // const withRouterDataContainerComponent = withRouter<ProfileContainerPropsType, any>(AuthRedirectComponent)
-// export default connect(mapStateToProps, {getUserProfile} as MapDispatchToPropsType)(withRouterDataContainerComponent)
+// export default connect(mapStateToProps, {getUserProfile} as MapDispatchToProps)(withRouterDataContainerComponent)
 export default compose<React.ComponentType>(
     connect(mapStateToProps, {getUserProfile, getUserStatus, updateUserStatus, savePhoto, saveProfile: saveProfile as any} as MapDispatchToPropsType),
     withRouter,
@@ -66,7 +66,7 @@ export type RouterPathParamsType = {
     userId: string
 }
 type MapStateToPropsType = {
-    profile: UserProfileType | null
+    profile: UserProfile | null
     status: string
     authorizedUserId: number | null
     isAuth: boolean
@@ -76,7 +76,7 @@ type MapDispatchToPropsType = {
     getUserStatus: (userId: number | null) => void
     updateUserStatus: (status: string) => void
     savePhoto: (photoFile: File) => void
-    // saveProfile: (profile: FormDataType) => (...args: any) => Promise<ResponseType | string | undefined>
+    // saveProfile: (profile: FormDataType) => (...args: any) => Promise<Response | string | undefined>
     saveProfile: (profile: FormDataType) => Promise<void>
 
 }

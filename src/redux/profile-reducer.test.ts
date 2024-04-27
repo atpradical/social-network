@@ -1,8 +1,8 @@
-import {addPostAC, deletePost, InitialStateType, profileReducer} from "./profile-reducer";
+import {addPostAC, deletePost, ProfileState, profileReducer} from "./profile-reducer";
 
 it('length of posts should be incremented', () => {
     const action = addPostAC('it-kamasutra.com')
-    const state: InitialStateType = {
+    const state: ProfileState = {
         posts: [
             {id: 1, post: 'Hi how are you?', likesCount: 5},
             {id: 2, post: 'this is my first comment', likesCount: 2},
@@ -18,7 +18,7 @@ it('length of posts should be incremented', () => {
 
 it('message of ne post should be correct', () => {
     const action = addPostAC('it-kamasutra.com')
-    const state: InitialStateType = {
+    const state: ProfileState = {
         posts: [
             {id: 1, post: 'Hi how are you?', likesCount: 5},
             {id: 2, post: 'this is my first comment', likesCount: 2},
@@ -34,7 +34,7 @@ it('message of ne post should be correct', () => {
 
 it('after delete length of posts should be decrement', () => {
     const action = deletePost(1)
-    const state: InitialStateType = {
+    const state: ProfileState = {
         posts: [
             {id: 1, post: 'Hi how are you?', likesCount: 5},
             {id: 2, post: 'this is my first comment', likesCount: 2},
@@ -50,7 +50,7 @@ it('after delete length of posts should be decrement', () => {
 
 it('after delete length of posts should not be changed in case of incorrect post id', () => {
     const action = deletePost(1001)
-    const state: InitialStateType = {
+    const state: ProfileState = {
         posts: [
             {id: 1, post: 'Hi how are you?', likesCount: 5},
             {id: 2, post: 'this is my first comment', likesCount: 2},

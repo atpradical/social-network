@@ -1,6 +1,7 @@
 import React, {ChangeEvent} from 'react';
 
-export class ProfileStatus extends React.Component<ProfileStatusPropsType, ProfileStatusStateType> {
+export class ProfileStatus extends React.Component<Props, State> {
+
     state = {
         editMode: false,
         status: this.props.status
@@ -14,18 +15,9 @@ export class ProfileStatus extends React.Component<ProfileStatusPropsType, Profi
         this.props?.updateUserStatus?.(this.state.status)
     }
 
-    // statusInputRef = React.createRef<HTMLInputElement>()
     onStatusChange = (e: ChangeEvent<HTMLInputElement>) => {
         this.setState({status: e.currentTarget.value})
     }
-
-    // componentDidUpdate(prevProps: Readonly<ProfileStatusPropsType>, prevState: Readonly<ProfileStatusStateType>) {
-    //     console.log(prevProps)
-    //     console.log(this.state)
-    //     // if (prevProps.status !== this.state.status) {
-    //     //     this.setState({status: this.state.status})
-    //     // }
-    // }
 
     render() {
         return (
@@ -38,7 +30,6 @@ export class ProfileStatus extends React.Component<ProfileStatusPropsType, Profi
                 {this.state.editMode &&
                     <div>
                         <input
-                            // ref={this.statusInputRef}
                             onChange={this.onStatusChange}
                             value={this.state.status}
                             onBlur={this.deactivateEditMode}
@@ -51,12 +42,12 @@ export class ProfileStatus extends React.Component<ProfileStatusPropsType, Profi
     }
 };
 
-type ProfileStatusPropsType = {
+type Props = {
     status: string
     updateUserStatus: (status: string) => void
 }
 
-type ProfileStatusStateType = {
+type State = {
     editMode: boolean
     status: string
 }

@@ -2,7 +2,7 @@ import React from 'react';
 import s from './Profile.module.css';
 import {ProfileInfo} from "./ProfileInfo/ProfileInfo";
 import {MyPostsContainer} from "./MyPosts/MyPostsContainer";
-import {ResponseType, UserProfileType} from "../../api/api";
+import {Response, UserProfile} from "../../api/api";
 import {FormDataType} from "./ProfileInfo/ProfileDataForm";
 
 export const Profile: React.FC<ProfilePropsType> = (props) => {
@@ -25,10 +25,10 @@ export const Profile: React.FC<ProfilePropsType> = (props) => {
 // types:
 type ProfilePropsType = {
     isOwner: boolean
-    profile: UserProfileType | null
+    profile: UserProfile | null
     status: string
     updateUserStatus: (status: string) => void
     savePhoto: (photoFile: File) => void
-    // saveProfile: (profile: FormDataType) => Promise<ResponseType | string | undefined>
+    // saveProfile: (profile: FormDataType) => Promise<Response | string | undefined>
     saveProfile: (profile: FormDataType) => Promise<void>
 }

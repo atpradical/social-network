@@ -1,9 +1,9 @@
 import React from 'react';
 import s from './Header.module.css';
 import {NavLink} from "react-router-dom";
-import {InitialStateType} from "../../redux/auth-reducer";
+import {InitialState} from "../../redux/auth-reducer";
 
-export const Header: React.FC<HeaderPropsType> = (props) => {
+export const Header: React.FC<Props> = (props) => {
 
     return (
         <header className={s.header}>
@@ -25,7 +25,7 @@ export const Header: React.FC<HeaderPropsType> = (props) => {
 };
 
 //types:
-type HeaderPropsType = {
-    auth: InitialStateType
+type Props = {
+    auth: InitialState
     logout: () => void
 }
