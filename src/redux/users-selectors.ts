@@ -26,3 +26,7 @@ export const getIsFetchingSelector = (state: AppStateType): boolean => {
 export const getFollowingInProgressSelector = (state: AppStateType): number[] => {
     return state.usersPage.followingInProgress
 }
+
+export const gerUsersSearchFilter = (state: AppStateType) => {
+    return state.usersPage.filter
+}
