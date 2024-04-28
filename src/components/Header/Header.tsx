@@ -1,27 +1,43 @@
 import React from 'react';
-import s from './Header.module.css';
-import {NavLink} from "react-router-dom";
+import {Link} from "react-router-dom";
 import {InitialState} from "../../redux/auth-reducer";
+import {Avatar, Button, Col, Layout, Menu, Row, Space, Typography} from "antd";
+import {UserOutlined} from "@ant-design/icons";
+import {Logo} from "./Logo";
 
 export const Header: React.FC<Props> = (props) => {
 
+    const {Header} = Layout;
+    const {Text} = Typography;
+
     return (
-        <header className={s.header}>
-            <img
-                src="https://www.creativefabrica.com/wp-content/uploads/2021/03/20/Mountain-logo-Design-Graphics-9785421-1-580x435.png"
-                alt="logotype"
-            />
-            <div className={s.loginBlock}>
-                {props.auth.isAuth
-                    ? <div>
-                        <div className={s.loggedIn}>{props.auth.login}</div>
-                        <button onClick={props.logout}>log out</button>
-                    </div>
-                    : <NavLink to={'/login'}>Please login</NavLink>
-                }
-            </div>
-        </header>
-    );
+        <Header className="header">
+            {/*<div className="logo"/>*/}
+            <Row>
+                <Logo/>
+                <Col span={15}>
+                    <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['2']}>
+                        <Menu.Item key={'1'}>nav1</Menu.Item>
+                        <Menu.Item key={'2'}>nav1</Menu.Item>
+                    </Menu>
+                </Col>
+                {/*<Col span={4}>*/}
+                <Space size={"large"}>
+                    {props.auth.isAuth
+                        ? <Row justify="space-around" align="middle">
+                            <Avatar style={{backgroundColor: '#0a9ae7'}} icon={<UserOutlined/>}/>
+                            <Text strong type="success">{props.auth.login}</Text>
+                            <Button onClick={props.logout}>Logout</Button>
+                        </Row>
+                        : <Button>
+                            <Link to={'/login'}>Login</Link>
+                        </Button>
+                    }
+                {/*</Col>*/}
+                </Space>
+            </Row>
+        </Header>
+    )
 };
 
 //types:

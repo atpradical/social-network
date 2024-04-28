@@ -1,17 +1,21 @@
 import React, {FC, lazy} from 'react';
 import './App.css';
-import {BrowserRouter, Redirect, Route, RouteComponentProps, Switch, withRouter} from "react-router-dom";
+import {BrowserRouter, Link, Redirect, Route, RouteComponentProps, Switch, withRouter} from "react-router-dom";
 import ProfileContainer, {RouterPathParamsType} from "./components/Profile/ProfileContainer";
-import HeaderContainer from "./components/Header/HeaderContainer";
-import Login from "./components/Login/Login";
 import {connect, Provider} from "react-redux";
 import {compose} from "redux";
 import {Preloader} from "./components/Common/Preloder/Preloader";
-import {NavBar} from "./components/NavBar/NavBar";
 import {AppStateType, store} from "./redux/redux-store";
 import {initializeApp} from "./redux/app-reducer";
-import UsersContainer from "./components/Users/UsersContainer";
 import {withSuspense} from "./hoc/withSuspense";
+import {Avatar, Breadcrumb, Col, Layout, Menu, Row} from 'antd';
+import UsersContainer from "./components/Users/UsersContainer";
+import Login from "./components/Login/Login";
+import {UserOutlined} from '@ant-design/icons';
+import HeaderContainer from "./components/Header/HeaderContainer";
+import {NavBar} from "./components/NavBar/NavBar";
+
+const {Content, Footer, Sider} = Layout;
 
 
 const DialogsContainer = lazy(async () => {
@@ -43,21 +47,60 @@ class App extends React.Component<AppPropsTypes> {
             return <Preloader/>
         }
         return (
-            <div className="app-wrapper">
+            <Layout style={{minHeight: '100vh'}}>
                 <HeaderContainer/>
-                <NavBar/>
-                <div className={'app-wrapper-content'}>
-                    <Switch>
-                        <Route exact path={'/'} render={() => <Redirect to={"/profile"}/>
-                        }/>
-                        <Route path={'/dialogs'} render={() => <SuspendedDialogs/>}/>
-                        <Route path={'/profile/:userId?'} render={() => <ProfileContainer/>}/>
-                        <Route path={'/users'} render={() => <UsersContainer/>}/>
-                        <Route path={'/login'} render={() => <Login/>}/>
-                        <Route path={'*'} render={() => <div>404 Page not found</div>}/>
-                    </Switch>
-                </div>
-            </div>
+                <Content style={{padding: '0 50px'}}>
+                    <Breadcrumb style={{margin: '16px 0'}}>
+                        <Breadcrumb.Item>Home</Breadcrumb.Item>
+                        <Breadcrumb.Item>List</Breadcrumb.Item>
+                        <Breadcrumb.Item>App</Breadcrumb.Item>
+                    </Breadcrumb>
+                    <Layout className="site-layout-background" style={{padding: '24px 0'}}>
+                        <Sider className="site-layout-background" width={200}>
+                            <Menu
+                                mode="inline"
+                                defaultSelectedKeys={['1']}
+                                style={{height: '100%'}}
+                            >
+                                <Menu.Item key={'1'}><Link to={'/profile'}>Profile</Link></Menu.Item>
+                                <Menu.Item key={'2'}><Link to={'/dialogs'}>Dialogs</Link></Menu.Item>
+                                <Menu.Item key={'3'}><Link to={'/users'}>Users</Link></Menu.Item>
+                                <Menu.Item key={'4'}><Link to={'/news'}>News</Link></Menu.Item>
+                                <Menu.Item key={'5'}><Link to={'/music'}>Music</Link></Menu.Item>
+                                <Menu.Item key={'6'}><Link to={'/settings'}>Settings</Link></Menu.Item>
+                            </Menu>
+                        </Sider>
+                        <Content style={{padding: '0 24px', minHeight: 280}}>
+                            <Switch>
+                                <Route exact path={'/'} render={() => <Redirect to={"/profile"}/>
+                                }/>
+                                <Route path={'/dialogs'} render={() => <SuspendedDialogs/>}/>
+                                <Route path={'/profile/:userId?'} render={() => <ProfileContainer/>}/>
+                                <Route path={'/users'} render={() => <UsersContainer/>}/>
+                                <Route path={'/login'} render={() => <Login/>}/>
+                                <Route path={'*'} render={() => <div>404 Page not found</div>}/>/
+                            </Switch>
+                        </Content>
+                    </Layout>
+                </Content>
+                <Footer style={{textAlign: 'center'}}>created by Ivan Dolgikh with coffee and love</Footer>
+            </Layout>
+
+            // <div className="app-wrapper">
+            //     <HeaderContainer/>
+            //     <NavBar/>
+            //     <div className={'app-wrapper-content'}>
+            //         <Switch>
+            //             <Route exact path={'/'} render={() => <Redirect to={"/profile"}/>
+            //             }/>
+            //             <Route path={'/dialogs'} render={() => <SuspendedDialogs/>}/>
+            //             <Route path={'/profile/:userId?'} render={() => <ProfileContainer/>}/>
+            //             <Route path={'/users'} render={() => <UsersContainer/>}/>
+            //             <Route path={'/login'} render={() => <Login/>}/>
+            //             <Route path={'*'} render={() => <div>404 Page not found</div>}/>
+            //         </Switch>
+            //     </div>
+            // </div>
         );
     }
 }

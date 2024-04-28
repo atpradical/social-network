@@ -1,3 +1,5 @@
+@import "~antd/dist/antd.css";
+
 /*.App {*/
 /*    text-align: center;*/
 /*}*/
@@ -37,23 +39,40 @@
 /*    }*/
 /*}*/
 
-.app-wrapper {
-    box-sizing: border-box;
-    display: grid;
-    grid-template-areas: "h h" "n c";
-    grid-template-rows: 100px auto;
-    grid-template-columns: 200px auto;
-    grid-gap: 10px;
-    height: 100vh;
-    width: 95%;
-    margin: 0 auto;
+/*.app-wrapper {*/
+/*    box-sizing: border-box;*/
+/*    display: grid;*/
+/*    grid-template-areas: "h h" "n c";*/
+/*    grid-template-rows: 100px auto;*/
+/*    grid-template-columns: 200px auto;*/
+/*    grid-gap: 10px;*/
+/*    height: 100vh;*/
+/*    width: 95%;*/
+/*    margin: 0 auto;*/
+/*}*/
 
+/*.app-wrapper-content {*/
+/*    grid-area: c;*/
+/*    background-color: #a5ffb1;*/
+/*    border: 1px solid #2d2d2b;*/
+/*    display: flex;*/
+/*    flex-direction: column;*/
+/*}*/
+
+#components-layout-demo-top-side .logo {
+    float: left;
+    width: 120px;
+    height: 31px;
+    margin: 16px 24px 16px 0;
+    background: rgba(255, 255, 255, 0.3);
 }
 
-.app-wrapper-content {
-    grid-area: c;
-    background-color: #a5ffb1;
-    border: 1px solid #2d2d2b;
-    display: flex;
-    flex-direction: column;
+.ant-row-rtl #components-layout-demo-top-side .logo {
+    float: right;
+    margin: 16px 0 16px 24px;
+}
+
+.site-layout-background {
+    background: #fff;
+    border-radius: 20px;
 }
