@@ -5,10 +5,12 @@ import {Preloader} from "../../Common/Preloder/Preloader";
 import {ProfileContacts, UserProfile} from "../../../api/api";
 import {ProfileStatus} from "./ProfileStatus";
 import ProfileDataForm, {FormDataType} from "./ProfileDataForm";
+import {Button, Card, Divider, Image, Row, Typography} from "antd";
+
+const {Title, Text, Paragraph} = Typography;
 
 export const ProfileInfo: React.FC<ProfileInfoPropsType> = ({
-                                                                isOwner, profile,
-                                                                status, updateUserStatus,
+                                                                isOwner, profile, status, updateUserStatus,
                                                                 savePhoto, saveProfile
                                                             }) => {
 
@@ -33,20 +35,24 @@ export const ProfileInfo: React.FC<ProfileInfoPropsType> = ({
 
     return (
         <div>
-            <div>
-                <img src="https://images.wallpapershq.com/wallpapers/8175/wallpaper_8175_1920x1080.jpg"
-                     alt="picture"/>
-            </div>
             <div className={s.descriptionBlock}>
-                <div>
-                    <img style={largeProfilePhoto} src={profile?.photos.large || userPhoto}
-                         alt="profile avatar"/>
-                    <div>{isOwner && <input type={"file"} onChange={onMainPhotoSelected}/>}</div>
+                <div className={s.profileBackground}>
+                    <Card style={{borderRadius: 20, opacity: 0.85, border: "1px solid grey"}}>
+                        <Row justify={"start"} align={"middle"} style={{gap: 20}}>
+                            <Image style={largeProfilePhoto} preview={false}
+                                   src={profile?.photos.large || userPhoto}/>
+                            <Typography>
+                                <Title level={3}>{profile.fullName}</Title>
+                                <ProfileStatus status={status} updateUserStatus={updateUserStatus}/>
+                            </Typography>
+                        </Row>
+                        {isOwner && <>
+                            <Divider/>
+                            <Button onClick={() => setEditMode(true)}>Edit profile</Button>
+                            <input type={"file"} onChange={onMainPhotoSelected}/>
+                        </>}
+                    </Card>
                 </div>
-
-                <ProfileStatus status={status} updateUserStatus={updateUserStatus}/>
-                <hr/>
-
                 {editMode
                     ? <ProfileDataForm
                         initialValues={profile}
@@ -55,7 +61,6 @@ export const ProfileInfo: React.FC<ProfileInfoPropsType> = ({
                     />
                     : <ProfileData profile={profile} isOwner={isOwner} setEditMode={setEditMode}/>}
             </div>
-            <hr/>
         </div>
     )
         ;
@@ -64,37 +69,43 @@ export const ProfileInfo: React.FC<ProfileInfoPropsType> = ({
 
 const ProfileData: FC<ProfileDataType> = ({profile, setEditMode, isOwner}) => {
     return (
-        <div>
-            {isOwner && <div>
-                <button onClick={() => setEditMode(true)}>Edit</button>
-            </div>}
-            <span><b>{profile.fullName}</b></span>
-            <div><b>About me: </b><span>{profile.aboutMe}</span></div>
-            <hr/>
-            <div><b>Looking for a job: </b><span>{profile.lookingForAJob ? '⚒️ Yes' : '❌ No'}</span></div>
-            <div><b>My skills description: </b><span>{profile.lookingForAJobDescription}</span></div>
-            <hr/>
-            <div>
-                <b>Contacts: </b>{(Object.keys(profile.contacts) as Keys[]).map(key => {
-                return <Contact key={key} contactTitle={key} contactValue={profile.contacts[key]}/>
-            })}
-            </div>
-        </div>
+        <Row style={{gap: 10}}>
+            <Card style={cardStyle}>
+                <Divider orientation="left">About me:</Divider>
+                <Paragraph>{profile.aboutMe}</Paragraph>
+                <Paragraph><b>Looking for a job: </b>{profile.lookingForAJob ? '⚒️ Yes' : '❌ No'}</Paragraph>
+                <Paragraph><b>My skills description: </b>{profile.lookingForAJobDescription}</Paragraph>
+
+            </Card>
+            <Card style={cardStyle}>
+                <Divider orientation="left">Contacts</Divider>
+                {(Object.keys(profile.contacts) as Keys[]).map(key => {
+                    return <Contact key={key} contactTitle={key} contactValue={profile.contacts[key]}/>
+                })}
+            </Card>
+        </Row>
     )
 }
 
 
 export const Contact: FC<ContactProps> = ({contactTitle, contactValue}) => {
-    return <div><b>{contactTitle}: </b><span>{contactValue}</span></div>
+    return <Paragraph><b>{contactTitle}: </b><Text>{contactValue}</Text></Paragraph>
 }
 
 
 //inline-styles:
 const largeProfilePhoto = {
-    width: '300px',
-    height: '300px',
-    border: '1px solid dimgrey',
-    borderRadius: '5%'
+    width: '200px',
+    height: '200px',
+    borderRadius: '50%'
+}
+
+const cardStyle = {
+    backgroundColor: "#E6F7FF",
+    borderRadius: 20,
+    opacity: 0.85,
+    border: "1px solid grey",
+    width: "30%"
 }
 
 //types:

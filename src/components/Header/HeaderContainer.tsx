@@ -13,7 +13,8 @@ class HeaderContainer extends React.Component<HeaderContainerProps> {
 
 const mapStateToProps = (state: AppStateType): MapStateToProps => {
     return {
-        auth: state.auth
+        auth: state.auth,
+        photo: state.profilePage.profile?.photos.small
     }
 }
 
@@ -23,6 +24,7 @@ export default connect(mapStateToProps, {logout} as MapDispatchToProps)(HeaderCo
 //types:
 type MapStateToProps = {
     auth: InitialState
+    photo: string | null | undefined
 }
 type MapDispatchToProps = {
     logout: () => void

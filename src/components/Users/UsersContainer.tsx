@@ -14,13 +14,8 @@ import {Users} from "./Users";
 import {Preloader} from "../Common/Preloder/Preloader";
 import {compose} from "redux";
 import {
-    gerUsersSearchFilter,
-    getCurrentPageSelector,
-    getFollowingInProgressSelector,
-    getIsFetchingSelector,
-    getPageSizeSelector,
-    getTotalUsersCountSelector,
-    getUsersSuperSelector
+    gerUsersSearchFilter, getCurrentPageSelector, getFollowingInProgressSelector,
+    getIsFetchingSelector, getPageSizeSelector, getTotalUsersCountSelector, getUsersSuperSelector
 } from "../../redux/users-selectors";
 
 
@@ -37,7 +32,7 @@ class UsersContainer extends React.Component<Props> {
     }
 
     onFilterChanged = (filter: Filter) => {
-        const { pageSize} = this.props
+        const {pageSize} = this.props
         this.props.getUsers(1, pageSize, filter)
     }
 
@@ -49,7 +44,6 @@ class UsersContainer extends React.Component<Props> {
                        pageSize={this.props.pageSize}
                        onPageChangedHandler={this.onPageChangedHandler}
                        onFilterChanged={this.onFilterChanged}
-                       currentPage={this.props.currentPage}
                        users={this.props.users}
                        followingInProgress={this.props.followingInProgress}
                        follow={this.props.follow}

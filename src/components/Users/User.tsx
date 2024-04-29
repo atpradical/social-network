@@ -1,47 +1,45 @@
 import React, {FC} from 'react';
-import s from "./Users.module.css";
 import userPhoto from "../../assets/no-profile-picture-icon.webp";
-import {NavLink} from "react-router-dom";
+import {Link} from "react-router-dom";
 import {UserType} from "../../redux/users-reducer";
+import {Avatar, Button, Card, Row} from 'antd';
+
+const {Meta} = Card;
 
 export const User: FC<Props> = ({user, followingInProgress, follow, unFollow}) => {
 
     return (
-        <div className={s.item}>
-            <span>
-                  <div>
-                       <NavLink to={`/profile/${user.id}`}>
-                           <img src={user.photos.small || userPhoto} alt="userPhoto" className={s.userPhoto}/>
-                       </NavLink>
-                  </div>
-                  <div>
-                       {
-                           user.followed
-                               ? <button
-                                   disabled={followingInProgress.some(id => id === user.id)}
-                                   onClick={() => {
-                                       unFollow(user.id)
-                                   }}> Unfollow
-                               </button>
-                               : <button
-                                   disabled={followingInProgress.some(id => id === user.id)}
-                                   onClick={() => {
-                                       follow(user.id)
-                                   }}>Follow
-                               </button>
-                       }
-                  </div>
-            </span>
-            <span>
-                <div><b>{user.name}</b></div>
-                <div><i>{user.status}</i></div>
-            </span>
-            <span>
-                <div>{"u.location.country"}</div>
-                <div>{"u.location.city"}</div>
-            </span>
-        </div>
-    );
+        <>
+            <Card style={{width: 300, borderRadius: 10, borderColor: "#939090"}}>
+                <Link to={`/profile/${user.id}`}>
+                    <Row align={"middle"} style={{columnGap: 15, marginBottom: 10}}>
+                        <Meta
+                            avatar={<Avatar src={user.photos.small || userPhoto} size={72}/>}
+                            title={user.name}
+                            description={user.status}
+                        />
+                    </Row>
+                </Link>
+                {
+                    user.followed
+                        ? <Button
+                            style={{borderRadius: 3}}
+                            type="primary"
+                            disabled={followingInProgress.some(id => id === user.id)}
+                            onClick={() => {
+                                unFollow(user.id)
+                            }}> Unfollow
+                        </Button>
+                        : <Button
+                            style={{borderRadius: 3}}
+                            disabled={followingInProgress.some(id => id === user.id)}
+                            onClick={() => {
+                                follow(user.id)
+                            }}>Follow
+                        </Button>
+                }
+            </Card>
+        </>)
 };
 
 //types:

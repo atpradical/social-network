@@ -1,9 +1,10 @@
 import React from 'react';
 import {Link} from "react-router-dom";
 import {InitialState} from "../../redux/auth-reducer";
-import {Avatar, Button, Col, Layout, Menu, Row, Space, Typography} from "antd";
+import {Avatar, Button, Col, Layout, Row, Typography} from "antd";
 import {UserOutlined} from "@ant-design/icons";
 import {Logo} from "./Logo";
+import userPhoto from "../../assets/no-profile-picture-icon.webp";
 
 export const Header: React.FC<Props> = (props) => {
 
@@ -12,20 +13,12 @@ export const Header: React.FC<Props> = (props) => {
 
     return (
         <Header className="header">
-            {/*<div className="logo"/>*/}
-            <Row>
+            <Row justify="space-around">
                 <Logo/>
-                <Col span={15}>
-                    <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['2']}>
-                        <Menu.Item key={'1'}>nav1</Menu.Item>
-                        <Menu.Item key={'2'}>nav1</Menu.Item>
-                    </Menu>
-                </Col>
-                {/*<Col span={4}>*/}
-                <Space size={"large"}>
+                <Col>
                     {props.auth.isAuth
-                        ? <Row justify="space-around" align="middle">
-                            <Avatar style={{backgroundColor: '#0a9ae7'}} icon={<UserOutlined/>}/>
+                        ? <Row justify="space-between" align="middle" style={{gap: "10px"}}>
+                            <Avatar src={props.photo || userPhoto} size={40}/>
                             <Text strong type="success">{props.auth.login}</Text>
                             <Button onClick={props.logout}>Logout</Button>
                         </Row>
@@ -33,8 +26,7 @@ export const Header: React.FC<Props> = (props) => {
                             <Link to={'/login'}>Login</Link>
                         </Button>
                     }
-                {/*</Col>*/}
-                </Space>
+                </Col>
             </Row>
         </Header>
     )
@@ -44,4 +36,5 @@ export const Header: React.FC<Props> = (props) => {
 type Props = {
     auth: InitialState
     logout: () => void
+    photo: string | null | undefined
 }

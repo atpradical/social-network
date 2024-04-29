@@ -1,4 +1,7 @@
 import React, {ChangeEvent} from 'react';
+import {Input, Typography} from 'antd';
+
+const {Text} = Typography;
 
 export class ProfileStatus extends React.Component<Props, State> {
 
@@ -21,23 +24,19 @@ export class ProfileStatus extends React.Component<Props, State> {
 
     render() {
         return (
-            <>
+            <div>
                 {!this.state.editMode &&
-                    <div>
-                        <span onDoubleClick={this.activateEditMode}>{this.props.status || '--------'}</span>
-                    </div>
+
+                    <Text type={"success"} onClick={this.activateEditMode}>{this.props.status || '--------'}</Text>
                 }
                 {this.state.editMode &&
-                    <div>
-                        <input
-                            onChange={this.onStatusChange}
-                            value={this.state.status}
-                            onBlur={this.deactivateEditMode}
-                            autoFocus
-                        />
-                    </div>
+                    <Input placeholder="Basic usage"
+                           onChange={this.onStatusChange}
+                           value={this.state.status}
+                           onBlur={this.deactivateEditMode}
+                           autoFocus/>
                 }
-            </>
+            </div>
         );
     }
 };
