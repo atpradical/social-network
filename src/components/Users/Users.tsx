@@ -16,7 +16,7 @@ export const Users: FC<Users> = ({pageSize, totalUsersCount, onPageChangedHandle
                 onPageChanged={onPageChangedHandler}
                 pageSize={pageSize}
             />
-            <Row style={{rowGap: "20px", columnGap: "20px"}}>
+            <Row>
                 {users.map(u => <User
                     key={u.id}
                     user={u}

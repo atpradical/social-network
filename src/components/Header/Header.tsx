@@ -2,7 +2,6 @@ import React from 'react';
 import {Link} from "react-router-dom";
 import {InitialState} from "../../redux/auth-reducer";
 import {Avatar, Button, Col, Layout, Row, Typography} from "antd";
-import {UserOutlined} from "@ant-design/icons";
 import {Logo} from "./Logo";
 import userPhoto from "../../assets/no-profile-picture-icon.webp";
 

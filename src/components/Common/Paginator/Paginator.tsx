@@ -10,7 +10,6 @@ export const Paginator: FC<Props> = ({totalItemsCount, pageSize, onPageChanged})
         onChange={onPageChanged}
         style={{margin: 20}}
         showSizeChanger={false}
-        // onShowSizeChange={}
     />
 }
 

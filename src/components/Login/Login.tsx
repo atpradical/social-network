@@ -1,12 +1,13 @@
 import React, {FC} from 'react';
 import {Field, InjectedFormProps, reduxForm} from "redux-form";
-import {Input} from "../Common/FormsControl/FromsControls";
+import {CheckBox, Input} from "../Common/FormsControl/FromsControls";
 import {connect} from "react-redux";
 import {Redirect} from "react-router-dom";
 import s from '../Common/FormsControl/FromsControls.module.css'
 import {requiredFiled} from "../../utils/validators/validators";
 import {AppStateType} from "../../redux/redux-store";
 import {login} from "../../redux/auth-reducer";
+import {Button, Card, Divider} from "antd";
 
 const Login: FC<LoginPropsType> = ({isAuth, login, captchaUrl}) => {
 
@@ -24,14 +25,16 @@ const Login: FC<LoginPropsType> = ({isAuth, login, captchaUrl}) => {
     );
 };
 
-const LoginForm: React.FC<InjectedFormProps<FormDataType, LoginFormProps> & LoginFormProps> = ({handleSubmit, error, captchaUrl}) => {
+const LoginForm: React.FC<InjectedFormProps<FormDataType, LoginFormProps> & LoginFormProps> = ({
+                                                                                                   handleSubmit,
+                                                                                                   error,
+                                                                                                   captchaUrl
+                                                                                               }) => {
     return (
-        <div>
-            <div>
-                <h1>Login</h1>
-            </div>
+        <Card style={{maxWidth: 500, backgroundColor: "lightgray", boxShadow: "2px 2px 5px rgba(0, 0, 0, 0.3)"}}>
+            <Divider orientation={"left"}>Login</Divider>
             <form onSubmit={handleSubmit}>
-                <div>
+                <div style={{display: "flex", flexDirection: "column", gap: 20}}>
                     <Field
                         type="text"
                         placeholder={'email'}
@@ -39,8 +42,6 @@ const LoginForm: React.FC<InjectedFormProps<FormDataType, LoginFormProps> & Logi
                         component={Input}
                         validate={[requiredFiled]}
                     />
-                </div>
-                <div>
                     <Field
                         type="password"
                         placeholder={'password'}
@@ -48,28 +49,22 @@ const LoginForm: React.FC<InjectedFormProps<FormDataType, LoginFormProps> & Logi
                         component={Input}
                         validate={[requiredFiled]}
                     />
+                    <Field component={CheckBox} name={'rememberMe'} type={'checkbox'} label={'Remember me'}/>
+                    <div>
+                        {captchaUrl && <img src={captchaUrl} alt={'captchaUrl'}/>}
+                        {captchaUrl &&
+                            <Field
+                                type="text"
+                                placeholder={'enter symbols from image'}
+                                name={'captcha'}
+                                component={Input}
+                                validate={[requiredFiled]}
+                            />}
+                        {error && <div className={s.formSummaryError}>{error}</div>}</div>
                 </div>
-                <div>
-                    <label>
-                        <Field component={Input} name={'rememberMe'} type={'checkbox'}/>Remember me
-                    </label>
-                </div>
-                {captchaUrl && <img src={ captchaUrl } alt={'captchaUrl'} />}
-                {captchaUrl && <div>
-                    <Field
-                        type="text"
-                        placeholder={'enter symbols from image'}
-                        name={'captcha'}
-                        component={Input}
-                        validate={[requiredFiled]}
-                    />
-                </div>}
-                {error && <div className={s.formSummaryError}>{error}</div>}
-                <div>
-                    <button type={'submit'}>Login</button>
-                </div>
+                <Button onClick={handleSubmit} type={"primary"}>Login</Button>
             </form>
-        </div>
+        </Card>
     );
 }
 const LoginReduxForm = reduxForm<FormDataType, LoginFormProps>({form: 'login'})(LoginForm)

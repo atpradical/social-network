@@ -7,6 +7,7 @@ import {addPostAC, Posts} from "../../../redux/profile-reducer";
 const mapStateToProps = (state: AppStateType): MapStateToPropsType => {
     return {
         posts: state.profilePage.posts,
+        photo: state.profilePage.profile?.photos.small
     }
 }
 
@@ -22,6 +23,7 @@ export const MyPostsContainer = connect(mapStateToProps, mapDispatchToProps)(MyP
 //types:
 type MapStateToPropsType = {
     posts: Posts[]
+    photo: string | null | undefined
 }
 
 type MapDispatchToPropsType = {

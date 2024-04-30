@@ -37,13 +37,14 @@ export const ProfileInfo: React.FC<ProfileInfoPropsType> = ({
         <div>
             <div className={s.descriptionBlock}>
                 <div className={s.profileBackground}>
-                    <Card style={{borderRadius: 20, opacity: 0.85, border: "1px solid grey"}}>
-                        <Row justify={"start"} align={"middle"} style={{gap: 20}}>
+                    <Card style={{opacity: 0.85, boxShadow: "2px 2px 5px rgba(0, 0, 0, 0.3)"}}>
+                        <Row justify={"start"} align={"middle"} style={{gap: 20}} wrap={false}>
                             <Image style={largeProfilePhoto} preview={false}
                                    src={profile?.photos.large || userPhoto}/>
                             <Typography>
                                 <Title level={3}>{profile.fullName}</Title>
                                 <ProfileStatus status={status} updateUserStatus={updateUserStatus}/>
+                                <Paragraph>{profile.aboutMe}</Paragraph>
                             </Typography>
                         </Row>
                         {isOwner && <>
@@ -59,7 +60,7 @@ export const ProfileInfo: React.FC<ProfileInfoPropsType> = ({
                         onSubmit={onSubmit}
                         contacts={profile.contacts}
                     />
-                    : <ProfileData profile={profile} isOwner={isOwner} setEditMode={setEditMode}/>}
+                    : <ProfileData profile={profile}/>}
             </div>
         </div>
     )
@@ -67,17 +68,12 @@ export const ProfileInfo: React.FC<ProfileInfoPropsType> = ({
 };
 
 
-const ProfileData: FC<ProfileDataType> = ({profile, setEditMode, isOwner}) => {
+const ProfileData: FC<ProfileDataType> = ({profile}) => {
     return (
-        <Row style={{gap: 10}}>
+        <Row>
             <Card style={cardStyle}>
-                <Divider orientation="left">About me:</Divider>
-                <Paragraph>{profile.aboutMe}</Paragraph>
                 <Paragraph><b>Looking for a job: </b>{profile.lookingForAJob ? '⚒️ Yes' : '❌ No'}</Paragraph>
                 <Paragraph><b>My skills description: </b>{profile.lookingForAJobDescription}</Paragraph>
-
-            </Card>
-            <Card style={cardStyle}>
                 <Divider orientation="left">Contacts</Divider>
                 {(Object.keys(profile.contacts) as Keys[]).map(key => {
                     return <Contact key={key} contactTitle={key} contactValue={profile.contacts[key]}/>
@@ -101,11 +97,9 @@ const largeProfilePhoto = {
 }
 
 const cardStyle = {
-    backgroundColor: "#E6F7FF",
-    borderRadius: 20,
+    margin: "10px",
     opacity: 0.85,
-    border: "1px solid grey",
-    width: "30%"
+    boxShadow: "2px 2px 5px rgba(0, 0, 0, 0.3)"
 }
 
 //types:
@@ -127,8 +121,6 @@ export type Keys = keyof ProfileContacts
 
 export type ProfileDataType = {
     profile: UserProfile
-    isOwner: boolean
-    setEditMode: (value: boolean) => void
 }
 
 

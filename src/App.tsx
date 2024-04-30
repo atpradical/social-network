@@ -8,13 +8,13 @@ import {Preloader} from "./components/Common/Preloder/Preloader";
 import {AppStateType, store} from "./redux/redux-store";
 import {initializeApp} from "./redux/app-reducer";
 import {withSuspense} from "./hoc/withSuspense";
-import {Layout, Menu} from 'antd';
+import {Layout, Menu, Result} from 'antd';
 import UsersContainer from "./components/Users/UsersContainer";
 import Login from "./components/Login/Login";
 import HeaderContainer from "./components/Header/HeaderContainer";
 
-const {Content, Footer, Sider} = Layout;
 
+const {Content, Footer, Sider} = Layout;
 
 const DialogsContainer = lazy(async () => {
     const module = await import("./components/Dialogs/DialogsContainer")
@@ -52,8 +52,8 @@ class App extends React.Component<AppPropsTypes> {
                         <Sider className="site-layout-background" width={200}>
                             <Menu mode="inline" defaultSelectedKeys={['1']} style={{height: '100%'}}>
                                 <Menu.Item key={'1'}><Link to={'/profile'}>Profile</Link></Menu.Item>
-                                <Menu.Item key={'2'}><Link to={'/dialogs'}>Dialogs</Link></Menu.Item>
                                 <Menu.Item key={'3'}><Link to={'/users'}>Users</Link></Menu.Item>
+                                <Menu.Item key={'2'}><Link to={'/dialogs'}>Dialogs</Link></Menu.Item>
                                 <Menu.Item key={'4'}><Link to={'/news'}>News</Link></Menu.Item>
                                 <Menu.Item key={'5'}><Link to={'/music'}>Music</Link></Menu.Item>
                                 <Menu.Item key={'6'}><Link to={'/settings'}>Settings</Link></Menu.Item>
@@ -67,7 +67,9 @@ class App extends React.Component<AppPropsTypes> {
                                 <Route path={'/profile/:userId?'} render={() => <ProfileContainer/>}/>
                                 <Route path={'/users'} render={() => <UsersContainer/>}/>
                                 <Route path={'/login'} render={() => <Login/>}/>
-                                <Route path={'*'} render={() => <div>404 Page not found</div>}/>/
+                                <Route path={'*'} render={() => <Result status="404"
+                                                                        title="404"
+                                                                        subTitle="Sorry, the page you visited is under development."/>}/>/
                             </Switch>
                         </Content>
                     </Layout>

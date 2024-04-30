@@ -7963,6 +7963,11 @@ redent@^3.0.0:
     indent-string "^4.0.0"
     strip-indent "^3.0.0"
 
+redux-form-antd@^3.2.2:
+  version "3.2.2"
+  resolved "https://registry.yarnpkg.com/redux-form-antd/-/redux-form-antd-3.2.2.tgz#5ca81be4ebe425c3ac322c37434b04aac27d19c1"
+  integrity sha512-bKW16MRZE4PdwmmKD5RLkhPZdAzqzr3D33CLn2yx3WSbvf6Fa3ErnCUtFjOSW05FJkQrt+6JTgg44efMi52wHQ==
+
 redux-form@8.3.8:
   version "8.3.8"
   resolved "https://registry.yarnpkg.com/redux-form/-/redux-form-8.3.8.tgz#cd1a76c914655e3c599a375d6486a43bf8b4c1e3"

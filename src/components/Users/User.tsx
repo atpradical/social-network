@@ -10,7 +10,7 @@ export const User: FC<Props> = ({user, followingInProgress, follow, unFollow}) =
 
     return (
         <>
-            <Card style={{width: 300, borderRadius: 10, borderColor: "#939090"}}>
+            <Card style={{width: 300, boxShadow: "2px 2px 5px rgba(0, 0, 0, 0.3)", margin: 10}}>
                 <Link to={`/profile/${user.id}`}>
                     <Row align={"middle"} style={{columnGap: 15, marginBottom: 10}}>
                         <Meta
